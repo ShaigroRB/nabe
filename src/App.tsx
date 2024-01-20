@@ -1,35 +1,64 @@
-import { useState } from 'react'
-
-import { Button, FileButton, Group, Text } from '@mantine/core'
+import { AppShell, Burger, Group, Skeleton } from '@mantine/core'
 import { MantineProvider } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+
+import { PlaceholderLogo } from './placeholders/PlaceholderLogo'
 
 import './App.css'
 
 function App() {
   return (
     <MantineProvider>
-      <Demo />
+      <CollapseDesktop />
     </MantineProvider>
   )
 }
 
 export default App
 
-function Demo() {
-  const [file, setFile] = useState<File | null>(null)
-  return (
-    <>
-      <Group justify="center">
-        <FileButton onChange={setFile} accept="image/png,image/jpeg">
-          {(props) => <Button {...props}>Upload image</Button>}
-        </FileButton>
-      </Group>
+/**
+ * Responsive shell with header, collapsable navbar and content.
+ */
+function CollapseDesktop() {
+  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
+  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true)
 
-      {file && (
-        <Text size="sm" ta="center" mt="sm">
-          Picked file: {file.name}
-        </Text>
-      )}
-    </>
+  return (
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{
+        width: 300,
+        breakpoint: 'sm',
+        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+      }}
+      padding="md"
+    >
+      <AppShell.Header>
+        <Group h="100%" px="md">
+          <Burger
+            opened={mobileOpened}
+            onClick={toggleMobile}
+            hiddenFrom="sm"
+            size="sm"
+          />
+          <Burger
+            opened={desktopOpened}
+            onClick={toggleDesktop}
+            visibleFrom="sm"
+            size="sm"
+          />
+          <PlaceholderLogo size={30} />
+        </Group>
+      </AppShell.Header>
+      <AppShell.Navbar p="md">
+        Navbar
+        {Array(15)
+          .fill(0)
+          .map((_, index) => (
+            <Skeleton key={index} h={28} mt="sm" animate={false} />
+          ))}
+      </AppShell.Navbar>
+      <AppShell.Main>Main</AppShell.Main>
+    </AppShell>
   )
 }
