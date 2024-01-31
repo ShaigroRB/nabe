@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.main-layout {
+  display: grid;
+  grid-template: 'quick-actions editor' auto / 4rem 1fr;
+}
+
+#quick-actions {
+  grid-area: quick-actions;
+  background-color: aliceblue;
+}
+
+#editor {
+  grid-area: editor;
+  background-color: rgb(236, 236, 236);
+}
+
+#aside {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+}
+
+#aside[data-shown='true'] {
+  display: block;
+  background-color: blue;
+  width: 10rem;
+}
