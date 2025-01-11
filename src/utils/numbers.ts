@@ -1,2 +1,7 @@
-export const roundToNearestMultiple = (nb: number, step: number) =>
-  Math.round(nb / step) * step
+export const roundDownToNearestPositiveMultiple = (
+  nb: number,
+  step: number,
+) => {
+  const result = Math.floor(nb / step) * step
+  return result > 0 ? result : 0
+}

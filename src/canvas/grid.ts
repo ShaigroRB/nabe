@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-import { roundToNearestMultiple } from '../utils/numbers'
+import { roundDownToNearestPositiveMultiple } from '../utils/numbers'
 
 export const CELL_SIZE = 28
 
@@ -14,8 +14,14 @@ export function generateGrid(maxWidth: number, maxHeight: number) {
   gridContainer.interactiveChildren = false
   const graphics = new PIXI.Graphics()
 
-  const roundedMaxWidth = roundToNearestMultiple(maxWidth, CELL_SIZE)
-  const roundedMaxHeight = roundToNearestMultiple(maxHeight, CELL_SIZE)
+  const roundedMaxWidth = roundDownToNearestPositiveMultiple(
+    maxWidth,
+    CELL_SIZE,
+  )
+  const roundedMaxHeight = roundDownToNearestPositiveMultiple(
+    maxHeight,
+    CELL_SIZE,
+  )
 
   // draw horizontal lines from top to bottom
   // each line is spaced of CELL_SIZE pixels
