@@ -4,4 +4,9 @@ html {
   /* reset padding & margin */
   margin: 0;
   padding: 0;
+  background-color: #deddda;
+}
+
+.mantine-Kbd-root {
+  border-color: var(--mantine-color-gray-5);
 }

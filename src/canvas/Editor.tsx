@@ -16,7 +16,7 @@ const PADDING_CANVAS = 16
 const windowHeight = window.innerHeight
 const windowWidth = window.innerWidth
 const gridHeight = windowHeight - PADDING_CANVAS * 2
-const gridWidth = windowWidth - PADDING_CANVAS * 2
+const gridWidth = windowWidth - PADDING_CANVAS
 
 /**
  * This is where the magic happens.
@@ -73,14 +73,14 @@ const initializePixiApp = async (
 
   const grid = generateGrid(gridWidth, gridHeight)
   grid.x = PADDING_CANVAS
-  grid.y = PADDING_CANVAS
+  // grid.y = PADDING_CANVAS
   const blocks = blocksLayer({
     width: grid.width,
     height: grid.height,
     placeBlock,
   })
   blocks.x = PADDING_CANVAS
-  blocks.y = PADDING_CANVAS
+  // blocks.y = PADDING_CANVAS
 
   mainContainer.addChild(grid)
   mainContainer.addChild(blocks)
