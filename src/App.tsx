@@ -2,9 +2,11 @@ import { AppShell, Burger, Group, Skeleton } from '@mantine/core'
 import { MantineProvider } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
+import { Editor } from './canvas/Editor'
 import { PlaceholderLogo } from './placeholders/PlaceholderLogo'
 
-import './App.css'
+// core styles are required for all packages
+import '@mantine/core/styles.css'
 
 function App() {
   return (
@@ -26,12 +28,12 @@ function CollapseDesktop() {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{
+      aside={{
         width: 300,
         breakpoint: 'sm',
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
-      padding="md"
+      padding={0}
     >
       <AppShell.Header>
         <Group h="100%" px="md">
@@ -50,15 +52,25 @@ function CollapseDesktop() {
           <PlaceholderLogo size={30} />
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md">
-        Navbar
+      <AppShell.Aside p="md">
+        Aside
         {Array(15)
           .fill(0)
           .map((_, index) => (
             <Skeleton key={index} h={28} mt="sm" animate={false} />
           ))}
-      </AppShell.Navbar>
-      <AppShell.Main>Main</AppShell.Main>
+      </AppShell.Aside>
+      <AppShell.Main
+        style={{
+          marginLeft: '4rem',
+          padding: 0,
+          paddingTop: 60,
+          height: '100%',
+          border: '1px red dotted',
+        }}
+      >
+        <Editor />
+      </AppShell.Main>
     </AppShell>
   )
 }
