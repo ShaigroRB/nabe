@@ -1,11 +1,8 @@
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { AppShell, Burger, Group } from '@mantine/core'
 import { MantineProvider } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 
 import { Editor } from './canvas/Editor'
-import { PlaceholderLogo } from './placeholders/PlaceholderLogo'
 import { MapContextProvider } from './MapContext'
 
 // core styles are required for all packages
