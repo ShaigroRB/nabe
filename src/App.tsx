@@ -6,6 +6,7 @@ import { useDisclosure } from '@mantine/hooks'
 
 import { Editor } from './canvas/Editor'
 import { PlaceholderLogo } from './placeholders/PlaceholderLogo'
+import { MapContextProvider } from './MapContext'
 
 // core styles are required for all packages
 import '@mantine/core/styles.css'
@@ -14,7 +15,9 @@ function App() {
   return (
     <ErrorBoundary fallback={<div>App or Mantine crashed</div>}>
       <MantineProvider>
-        <CollapseDesktop />
+        <MapContextProvider>
+          <CollapseDesktop />
+        </MapContextProvider>
       </MantineProvider>
     </ErrorBoundary>
   )
