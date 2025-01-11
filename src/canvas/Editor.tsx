@@ -1,0 +1,50 @@
+import { useEffect, useReducer } from 'react'
+import * as PIXI from 'pixi.js'
+
+import { generateGrid } from './grid'
+
+/**
+ * This is where the magic happens.
+ *
+ * The editor is a big canvas that is used to:
+ * - draw the objects (assets, tiles, etc)
+ * - interact with the objects (create, move, delete, etc)
+ */
+export const Editor = () => {
+  useInitializePixiMainContainer()
+
+  return <div id="editor-content"></div>
+}
+
+const useInitializePixiMainContainer = () => {
+  const editorContainer = document.getElementById('editor-content')
+  const [, forceUpdate] = useReducer((x) => x + 1, 0)
+
+  useEffect(() => {
+    if (editorContainer == null) {
+      forceUpdate()
+    }
+    initializePixiApp(editorContainer)
+  }, [editorContainer])
+  return editorContainer
+}
+
+const initializePixiApp = (container: HTMLElement | null) => {
+  if (container == null) {
+    return
+  }
+  const app = new PIXI.Application({
+    backgroundColor: '#deddda',
+    height: 641,
+    width: 1201,
+  })
+  container.appendChild(app.view as unknown as Node)
+
+  const mainContainer = new PIXI.Container()
+  mainContainer.sortableChildren = true
+
+  const grid = generateGrid()
+  mainContainer.addChild(grid)
+
+  app.stage.addChild(mainContainer)
+}
