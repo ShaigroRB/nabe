@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.4.2",
-    "@mantine/hooks": "^7.4.2",
+    "@mantine/core": "7.15.2",
+    "@mantine/hooks": "7.15.2",
+    "@mantine/notifications": "7.15.2",
     "@tauri-apps/api": "^1.5.3",
     "pixi.js": "^8.6",
     "react": "^18.2.0",
