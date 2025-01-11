@@ -1,10 +1,7 @@
 import { createContext, ReactNode, useContext } from 'react'
 
-type Block = {
-  x: number
-  y: number
-}
-type Map = {
+import { Block } from './types'
+
   blocks: Block[]
 }
 
