@@ -7,7 +7,7 @@ An alternative map editor for Boring Man v2.
 ### Requirements
 
 - NVM: https://github.com/nvm-sh/nvm#installing-and-updating
-- yarn: https://yarnpkg.com/getting-started/install
+- pnpm: https://pnpm.io/installation
 - Rust for Tauri: https://tauri.app/v1/guides/getting-started/prerequisites
 
 ### Quick start
@@ -15,8 +15,8 @@ An alternative map editor for Boring Man v2.
 1. Clone the repository
 2. `cd nabe`
 3. `nvm use`: use node v20+
-4. `yarn install`: install dependencies
-5. `yarn taurid dev`: Run the app
+4. `pnpm install`: install dependencies
+5. `pnpm taurid dev`: Run the app
 
 #### Visual Studio Code
 
