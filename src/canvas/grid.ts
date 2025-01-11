@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 
 import { roundToNearestMultiple } from '../utils/numbers'
 
-const CELL_SIZE = 28
+export const CELL_SIZE = 28
 
 /**
  * Generate a grid.
@@ -11,6 +11,7 @@ const CELL_SIZE = 28
 export function generateGrid(maxWidth: number, maxHeight: number) {
   const gridContainer = new PIXI.Container()
   gridContainer.zIndex = -200
+  gridContainer.interactiveChildren = false
   const graphics = new PIXI.Graphics()
 
   const roundedMaxWidth = roundToNearestMultiple(maxWidth, CELL_SIZE)
