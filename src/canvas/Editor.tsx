@@ -46,7 +46,7 @@ const useInitializePixiMainContainer = () => {
     }
 
     waitForInitializationPixiApp().catch(console.error)
-  }, [editorContainer, placeBlock])
+  }, [editorContainer])
 
   return editorContainer
 }
