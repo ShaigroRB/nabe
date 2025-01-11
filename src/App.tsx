@@ -1,4 +1,6 @@
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core'
+import { ErrorBoundary } from 'react-error-boundary'
+
+import { AppShell, Burger, Group } from '@mantine/core'
 import { MantineProvider } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
@@ -10,9 +12,11 @@ import '@mantine/core/styles.css'
 
 function App() {
   return (
-    <MantineProvider>
-      <CollapseDesktop />
-    </MantineProvider>
+    <ErrorBoundary fallback={<div>App or Mantine crashed</div>}>
+      <MantineProvider>
+        <CollapseDesktop />
+      </MantineProvider>
+    </ErrorBoundary>
   )
 }
 
@@ -22,7 +26,6 @@ export default App
  * Responsive shell with header, collapsable navbar and content.
  */
 function CollapseDesktop() {
-  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true)
 
   return (
@@ -31,18 +34,12 @@ function CollapseDesktop() {
       aside={{
         width: 300,
         breakpoint: 'sm',
-        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+        collapsed: { desktop: !desktopOpened },
       }}
       padding={0}
     >
       <AppShell.Header>
         <Group h="100%" px="md">
-          <Burger
-            opened={mobileOpened}
-            onClick={toggleMobile}
-            hiddenFrom="sm"
-            size="sm"
-          />
           <Burger
             opened={desktopOpened}
             onClick={toggleDesktop}
@@ -52,14 +49,7 @@ function CollapseDesktop() {
           <PlaceholderLogo size={30} />
         </Group>
       </AppShell.Header>
-      <AppShell.Aside p="md">
-        Aside
-        {Array(15)
-          .fill(0)
-          .map((_, index) => (
-            <Skeleton key={index} h={28} mt="sm" animate={false} />
-          ))}
-      </AppShell.Aside>
+      <AppShell.Aside p="md">Aside</AppShell.Aside>
       <AppShell.Main
         style={{
           marginLeft: '4rem',
@@ -69,7 +59,9 @@ function CollapseDesktop() {
           border: '1px red dotted',
         }}
       >
-        <Editor />
+        <ErrorBoundary fallback={<div>Editor crashed</div>}>
+          <Editor />
+        </ErrorBoundary>
       </AppShell.Main>
     </AppShell>
   )
