@@ -33,7 +33,6 @@ export const Editor = () => {
 const useInitializePixiMainContainer = () => {
   const editorContainer = document.getElementById('editor-content')
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
-  const { setDebug } = useDebugContext()
 
   useEffect(() => {
     if (editorContainer == null) {
@@ -52,7 +51,6 @@ const useInitializePixiMainContainer = () => {
 
 const initializePixiApp = async (
   container: HTMLElement | null,
-  debug: DebugFunc,
 ) => {
   if (container == null) {
     return
