@@ -30,21 +30,29 @@ const useInitializePixiMainContainer = () => {
     if (editorContainer == null) {
       forceUpdate()
     }
-    initializePixiApp(editorContainer)
+
+    const waitForInitializationPixiApp = async () => {
+      await initializePixiApp(editorContainer)
+    }
+
+    waitForInitializationPixiApp().catch(console.error)
   }, [editorContainer])
+
   return editorContainer
 }
 
-const initializePixiApp = (container: HTMLElement | null) => {
+const initializePixiApp = async (container: HTMLElement | null) => {
   if (container == null) {
     return
   }
-  const app = new PIXI.Application({
+  const app = new PIXI.Application()
+
+  await app.init({
     backgroundColor: '#deddda',
     height: windowHeight - PADDING_CANVAS / 2,
     width: windowWidth,
   })
-  container.appendChild(app.view as unknown as Node)
+  container.appendChild(app.canvas as unknown as Node)
 
   const mainContainer = new PIXI.Container()
   mainContainer.sortableChildren = true
@@ -54,6 +62,5 @@ const initializePixiApp = (container: HTMLElement | null) => {
   grid.y = PADDING_CANVAS
 
   mainContainer.addChild(grid)
-
   app.stage.addChild(mainContainer)
 }
