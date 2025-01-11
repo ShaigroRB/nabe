@@ -1,15 +1,28 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
+import { debug } from './debug'
 import { Block } from './types'
 
+export type MapInformation = {
   blocks: Block[]
+  placeBlock: (block: Block) => void
 }
 
-const MapContext = createContext<Map | null>(null)
+const MapContext = createContext<MapInformation | null>(null)
 
 export const MapContextProvider = ({ children }: { children: ReactNode }) => {
+  const [blocks, setBlocks] = useState<Block[]>([])
+
+  const placeBlock = (newBlock: Block) => {
+    setBlocks((prev) => [...prev, newBlock])
+  }
+
+  debug(blocks)
+
   return (
-    <MapContext.Provider value={{ blocks: [] }}>{children}</MapContext.Provider>
+    <MapContext.Provider value={{ blocks, placeBlock }}>
+      {children}
+    </MapContext.Provider>
   )
 }
 

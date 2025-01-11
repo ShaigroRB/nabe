@@ -1,7 +1,8 @@
 import { useEffect, useReducer } from 'react'
 import * as PIXI from 'pixi.js'
 
-import { DebugFunc, useDebugContext } from '../DebugContext'
+import { MapInformation, useMapContext } from '../MapContext'
+import { Block } from '../types'
 import { roundDownToNearestPositiveMultiple as roundDownToNearestPositiveMultiple } from '../utils/numbers'
 
 import { CELL_SIZE, generateGrid } from './grid'
@@ -31,6 +32,7 @@ export const Editor = () => {
 }
 
 const useInitializePixiMainContainer = () => {
+  const { placeBlock } = useMapContext()
   const editorContainer = document.getElementById('editor-content')
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
 
@@ -40,17 +42,18 @@ const useInitializePixiMainContainer = () => {
     }
 
     const waitForInitializationPixiApp = async () => {
-      await initializePixiApp(editorContainer, setDebug)
+      await initializePixiApp(editorContainer, { placeBlock })
     }
 
     waitForInitializationPixiApp().catch(console.error)
-  }, [editorContainer])
+  }, [editorContainer, placeBlock])
 
   return editorContainer
 }
 
 const initializePixiApp = async (
   container: HTMLElement | null,
+  { placeBlock }: Pick<MapInformation, 'placeBlock'>,
 ) => {
   if (container == null) {
     return
@@ -71,7 +74,11 @@ const initializePixiApp = async (
   const grid = generateGrid(gridWidth, gridHeight)
   grid.x = PADDING_CANVAS
   grid.y = PADDING_CANVAS
-  const blocks = blocksLayer(grid.width, grid.height, debug)
+  const blocks = blocksLayer({
+    width: grid.width,
+    height: grid.height,
+    placeBlock,
+  })
   blocks.x = PADDING_CANVAS
   blocks.y = PADDING_CANVAS
 
@@ -98,7 +105,12 @@ function getNearestLocalPosition(
   return { nearestX, nearestY }
 }
 
-function blocksLayer(width: number, height: number, debug: DebugFunc) {
+type BlocksLayerFuncParam = {
+  width: number
+  height: number
+  placeBlock: (b: Block) => void
+}
+function blocksLayer({ width, height, placeBlock }: BlocksLayerFuncParam) {
   const layer = new PIXI.Container({ width, height })
   layer.sortableChildren = true
 
@@ -137,6 +149,9 @@ function blocksLayer(width: number, height: number, debug: DebugFunc) {
     const { nearestX, nearestY } = getNearestLocalPosition(e, layer)
     // draw a block to at the pointer position (snap it to the grid)
     blockGraphics.rect(nearestX, nearestY, CELL_SIZE, CELL_SIZE).fill(0x000000)
+
+    // update map data info
+    placeBlock({ x: nearestX, y: nearestY })
   })
 
   layer.addChild(blockGraphics)
