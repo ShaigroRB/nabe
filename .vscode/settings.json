@@ -7,6 +7,6 @@
     "node_modules/@mantine/core/styles.css"
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   }
 }
