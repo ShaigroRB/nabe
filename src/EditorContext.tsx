@@ -2,10 +2,9 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 
 import { Modal } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
-import { notifications } from '@mantine/notifications'
 
+import { saveAsBMAP, saveAsJSON } from './bindings/save'
 import { Binding } from './components/Binding'
-import { writeFile } from './tauri/file'
 import { useMapContext } from './MapContext'
 
 type RootBinding = 'file'
@@ -37,34 +36,12 @@ export const EditorContextProvider = ({
         title="File options"
         centered
         onKeyDown={getHotkeyHandler([
-          [
-            'S',
-            async (e) => {
-              e.stopPropagation()
-              e.preventDefault()
-
-              const { failed, filepath } = await writeFile(
-                JSON.stringify(blocks),
-                'nabe.json',
-              )
-
-              if (!failed) {
-                notifications.show({
-                  title: 'File saved',
-                  message: `Saved at ${filepath}nabe.json`,
-                })
-              } else {
-                notifications.show({
-                  color: 'red',
-                  title: 'Failed to save file',
-                  message: `Failed to save at ${filepath}`,
-                })
-              }
-            },
-          ],
+          ['S', saveAsJSON(blocks)],
+          ['D', saveAsBMAP(blocks)],
         ])}
       >
         <Binding binding="S" desc="Save file" />
+        <Binding binding="D" desc="Save as bmap.txt" />
       </Modal>
       {children}
     </EditorContext.Provider>
