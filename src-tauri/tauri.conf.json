@@ -16,25 +16,16 @@
         "all": true
       },
       "dialog": {
-        "all": false,
-        "ask": false,
-        "confirm": false,
         "message": true,
-        "open": false,
-        "save": false
+        "open": true
       },
       "fs": {
-        "scope": ["$APPLOCALDATA/*"],
-        "all": false,
+        "scope": [
+          "$APPLOCALDATA/*"
+        ],
         "readFile": true,
         "writeFile": true,
-        "readDir": true,
-        "copyFile": false,
-        "createDir": false,
-        "removeDir": false,
-        "removeFile": false,
-        "renameFile": false,
-        "exists": true
+        "readDir": true
       },
       "all": false
     },
