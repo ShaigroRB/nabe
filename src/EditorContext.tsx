@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 
-import { Modal } from '@mantine/core'
+import { LoadingOverlay, Modal } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 
 import { importFromJSON } from './bindings/import'
@@ -23,6 +23,8 @@ export const EditorContextProvider = ({
 }) => {
   const { map, setNewMap } = useMapContext()
   const [opened, { open, close }] = useDisclosure(false)
+  const [loading, { open: openLoading, close: closeLoading }] =
+    useDisclosure(false)
 
   const [pressedRootBinding, setPressedRootBinding] =
     useState<EditorInformation['pressedRootBinding']>(null)
@@ -30,14 +32,29 @@ export const EditorContextProvider = ({
   useHotkeys([['F', open]])
 
   const udpateNewMap = async () => {
-    const newMap = await importFromJSON()
+    const { hasImport, map: newMap } = await importFromJSON()
+    if (!hasImport) {
+      return
+    }
+
     setNewMap(newMap)
+    // to display loading overlay
+    setTimeout(() => {
+      closeLoading()
+    }, 700)
+    openLoading()
   }
 
   return (
     <EditorContext.Provider value={{ pressedRootBinding }}>
+      <LoadingOverlay
+        visible={loading}
+        zIndex={1000}
+        overlayProps={{ radius: 'sm', blur: 2 }}
+        loaderProps={{ color: 'orange', type: 'bars', size: 'xl' }}
+      />
       <Modal
-        opened={opened}
+        opened={opened && !loading}
         onClose={close}
         title="File options"
         centered
