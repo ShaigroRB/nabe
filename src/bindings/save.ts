@@ -15,13 +15,13 @@ export function saveAsJSON(blocks: unknown) {
 
     const { failed, filepath } = await writeFile(
       JSON.stringify(blocks),
-      'nabe.json',
+      'map.nabe.json',
     )
 
     if (!failed) {
       notifications.show({
         title: 'File saved',
-        message: `Saved at ${filepath}nabe.json`,
+        message: `Saved at ${filepath}map.nabe.json`,
       })
     } else {
       notifications.show({
