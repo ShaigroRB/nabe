@@ -7,11 +7,7 @@ import {
 } from 'react'
 
 import { debug } from './debug'
-import { Block } from './types'
-
-export type MapInformation = {
-  blocks: Block[]
-}
+import { Block, MapInformation } from './types'
 
 const emptyMap: MapInformation = {
   blocks: [],
@@ -58,7 +54,7 @@ export const MapContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [newMap])
 
-  debug(map.blocks)
+  debug(map)
 
   return (
     <MapContext.Provider

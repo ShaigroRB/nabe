@@ -6,15 +6,15 @@ import {
 } from '../conversion/blocks'
 import { defaultConfig } from '../conversion/config'
 import { writeFile } from '../tauri/file'
-import { Block } from '../types'
+import { MapInformation } from '../types'
 
-export function saveAsJSON(blocks: unknown) {
+export function saveAsJSON(map: MapInformation) {
   return async (e: any) => {
     e.stopPropagation()
     e.preventDefault()
 
     const { failed, filepath } = await writeFile(
-      JSON.stringify(blocks),
+      JSON.stringify(map),
       'map.nabe.json',
     )
 
@@ -33,22 +33,22 @@ export function saveAsJSON(blocks: unknown) {
   }
 }
 
-function createBmapContent(blocks: Block[]) {
-  const bmapBlocks = blocks.map(blockToBmapBlock)
-  const map: Record<string, Record<string, string>> = {
+function createBmapContent(map: MapInformation) {
+  const bmapBlocks = map.blocks.map(blockToBmapBlock)
+  const bmap: Record<string, Record<string, string>> = {
     Config: defaultConfig,
     ...bmapObjsToRecordBmapObjs(bmapBlocks),
   }
 
-  return `Nabe content\n0\n-1\n${JSON.stringify(map)}\n{}`
+  return `Nabe content\n0\n-1\n${JSON.stringify(bmap)}\n{}`
 }
 
-export function saveAsBMAP(blocks: Block[]) {
+export function saveAsBMAP(map: MapInformation) {
   return async (e: any) => {
     e.stopPropagation()
     e.preventDefault()
 
-    const content = createBmapContent(blocks)
+    const content = createBmapContent(map)
 
     const { failed, filepath } = await writeFile(content, 'bmap.txt')
 

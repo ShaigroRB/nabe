@@ -4,3 +4,7 @@ export type CellPosition = {
 }
 
 export type Block = CellPosition
+
+export type MapInformation = {
+  blocks: Block[]
+}

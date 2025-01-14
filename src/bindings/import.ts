@@ -1,7 +1,7 @@
 import { notifications } from '@mantine/notifications'
 
 import { openFile, readFile } from '../tauri/file'
-import { Block } from '../types'
+import { MapInformation } from '../types'
 
 export async function importFromJSON() {
   const { failed, filepath } = await openFile('Nabe JSON', ['nabe.json'])
@@ -12,7 +12,7 @@ export async function importFromJSON() {
       title: 'Cannot open multiple files',
       message: 'Please chose only one *.nabe.json',
     })
-    return [] // todo: return the map with no modification
+    return {} as MapInformation // todo: return the map with no modification
   }
 
   if (filepath === null) {
@@ -20,9 +20,9 @@ export async function importFromJSON() {
       title: 'User canceled',
       message: 'poop',
     })
-    return [] // todo: return the map with no modification
+    return {} as MapInformation // todo: return the map with no modification
   }
 
   const contents = await readFile(filepath)
-  return [...JSON.parse(contents)] as Block[]
+  return JSON.parse(contents) as MapInformation
 }

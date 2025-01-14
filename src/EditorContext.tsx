@@ -21,10 +21,7 @@ export const EditorContextProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const {
-    map: { blocks },
-    setNewMap,
-  } = useMapContext()
+  const { map, setNewMap } = useMapContext()
   const [opened, { open, close }] = useDisclosure(false)
 
   const [pressedRootBinding, setPressedRootBinding] =
@@ -33,8 +30,8 @@ export const EditorContextProvider = ({
   useHotkeys([['F', open]])
 
   const udpateNewMap = async () => {
-    const newBlocks = await importFromJSON()
-    setNewMap({ blocks: newBlocks })
+    const newMap = await importFromJSON()
+    setNewMap(newMap)
   }
 
   return (
@@ -45,8 +42,8 @@ export const EditorContextProvider = ({
         title="File options"
         centered
         onKeyDown={getHotkeyHandler([
-          ['S', saveAsJSON(blocks)],
-          ['D', saveAsBMAP(blocks)],
+          ['S', saveAsJSON(map)],
+          ['D', saveAsBMAP(map)],
           ['X', udpateNewMap],
         ])}
       >
