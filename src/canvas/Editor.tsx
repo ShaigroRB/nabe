@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import * as PIXI from 'pixi.js'
 
 import { MapContextInformation, useMapContext } from '../MapContext'
@@ -32,32 +32,55 @@ export const Editor = () => {
 }
 
 const useInitializePixiMainContainer = () => {
-  const { placeBlock } = useMapContext()
+  const { placeBlock, map, shouldRedraw, redrawIsFinished } = useMapContext()
   const editorContainer = document.getElementById('editor-content')
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
 
   useEffect(() => {
+    // only initialize the PIXI app once the div has been placed in the DOM
     if (editorContainer == null) {
       forceUpdate()
+      return
+    }
+
+    // avoid redrawing the PIXI app over and over due to variables updating
+    // this variable updates in very specific cases, such as importing a map
+    if (!shouldRedraw) {
+      return
     }
 
     const waitForInitializationPixiApp = async () => {
-      await initializePixiApp(editorContainer, { placeBlock })
+      await initializePixiApp(editorContainer, {
+        placeBlock,
+        map,
+        shouldRedraw,
+      })
     }
 
+    redrawIsFinished()
+
     waitForInitializationPixiApp().catch(console.error)
-  }, [editorContainer])
+  }, [editorContainer, shouldRedraw, redrawIsFinished, placeBlock, map])
 
   return editorContainer
 }
 
+type PixiEditorMapContext = Pick<
+  MapContextInformation,
+  'map' | 'placeBlock' | 'shouldRedraw'
+>
+
 const initializePixiApp = async (
   container: HTMLElement | null,
-  { placeBlock }: Pick<MapContextInformation, 'placeBlock'>,
+  { placeBlock, map, shouldRedraw }: PixiEditorMapContext,
 ) => {
-  if (container == null) {
+  if (container == null || !shouldRedraw) {
     return
   }
+  if (shouldRedraw) {
+    container.innerHTML = ''
+  }
+
   const app = new PIXI.Application()
 
   await app.init({
@@ -78,6 +101,7 @@ const initializePixiApp = async (
     width: grid.width,
     height: grid.height,
     placeBlock,
+    blocks: map.blocks,
   })
   blocks.x = PADDING_CANVAS
   // blocks.y = PADDING_CANVAS
@@ -109,8 +133,14 @@ type BlocksLayerFuncParam = {
   width: number
   height: number
   placeBlock: (b: Block) => void
+  blocks: Block[]
 }
-function blocksLayer({ width, height, placeBlock }: BlocksLayerFuncParam) {
+function blocksLayer({
+  width,
+  height,
+  placeBlock,
+  blocks,
+}: BlocksLayerFuncParam) {
   const layer = new PIXI.Container({ width, height })
   layer.sortableChildren = true
 
@@ -152,6 +182,11 @@ function blocksLayer({ width, height, placeBlock }: BlocksLayerFuncParam) {
 
     // update map data info
     placeBlock({ x: nearestX, y: nearestY })
+  })
+
+  // place blocks from the map
+  blocks.forEach((block) => {
+    blockGraphics.rect(block.x, block.y, CELL_SIZE, CELL_SIZE).fill(0x000000)
   })
 
   layer.addChild(blockGraphics)

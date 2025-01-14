@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 import { Modal } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 
+import { importFromJSON } from './bindings/import'
 import { saveAsBMAP, saveAsJSON } from './bindings/save'
 import { Binding } from './components/Binding'
 import { useMapContext } from './MapContext'
@@ -22,6 +23,7 @@ export const EditorContextProvider = ({
 }) => {
   const {
     map: { blocks },
+    setNewMap,
   } = useMapContext()
   const [opened, { open, close }] = useDisclosure(false)
 
@@ -29,6 +31,11 @@ export const EditorContextProvider = ({
     useState<EditorInformation['pressedRootBinding']>(null)
 
   useHotkeys([['F', open]])
+
+  const udpateNewMap = async () => {
+    const newBlocks = await importFromJSON()
+    setNewMap({ blocks: newBlocks })
+  }
 
   return (
     <EditorContext.Provider value={{ pressedRootBinding }}>
@@ -40,10 +47,12 @@ export const EditorContextProvider = ({
         onKeyDown={getHotkeyHandler([
           ['S', saveAsJSON(blocks)],
           ['D', saveAsBMAP(blocks)],
+          ['X', udpateNewMap],
         ])}
       >
         <Binding binding="S" desc="Save file" />
         <Binding binding="D" desc="Save as bmap.txt" />
+        <Binding binding="X" desc="Import map from JSON" />
       </Modal>
       {children}
     </EditorContext.Provider>
