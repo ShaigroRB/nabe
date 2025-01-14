@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import * as PIXI from 'pixi.js'
 
-import { MapInformation, useMapContext } from '../MapContext'
+import { MapContextInformation, useMapContext } from '../MapContext'
 import { Block } from '../types'
 import { roundDownToNearestPositiveMultiple as roundDownToNearestPositiveMultiple } from '../utils/numbers'
 
@@ -53,7 +53,7 @@ const useInitializePixiMainContainer = () => {
 
 const initializePixiApp = async (
   container: HTMLElement | null,
-  { placeBlock }: Pick<MapInformation, 'placeBlock'>,
+  { placeBlock }: Pick<MapContextInformation, 'placeBlock'>,
 ) => {
   if (container == null) {
     return

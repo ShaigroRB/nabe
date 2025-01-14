@@ -20,7 +20,9 @@ export const EditorContextProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const { blocks } = useMapContext()
+  const {
+    map: { blocks },
+  } = useMapContext()
   const [opened, { open, close }] = useDisclosure(false)
 
   const [pressedRootBinding, setPressedRootBinding] =
