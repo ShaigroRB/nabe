@@ -1,11 +1,11 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 import * as PIXI from 'pixi.js'
 
 import { MapContextInformation, useMapContext } from '../MapContext'
 import { Block } from '../types'
-import { roundDownToNearestPositiveMultiple as roundDownToNearestPositiveMultiple } from '../utils/numbers'
 
 import { CELL_SIZE, generateGrid } from './grid'
+import { getNearestLocalPosition } from './utils'
 import {
   ZINDEX_CONTAINER_DETECT_EVENTS,
   ZINDEX_LAYER_BLOCKS,
@@ -110,23 +110,6 @@ const initializePixiApp = async (
   mainContainer.addChild(blocks)
 
   app.stage.addChild(mainContainer)
-}
-
-function getNearestLocalPosition(
-  evt: PIXI.FederatedPointerEvent,
-  container: PIXI.Container,
-) {
-  const localPosition = evt.getLocalPosition(container)
-  const nearestX = roundDownToNearestPositiveMultiple(
-    localPosition.x,
-    CELL_SIZE,
-  )
-  const nearestY = roundDownToNearestPositiveMultiple(
-    localPosition.y,
-    CELL_SIZE,
-  )
-
-  return { nearestX, nearestY }
 }
 
 type BlocksLayerFuncParam = {
