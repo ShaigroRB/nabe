@@ -4,8 +4,9 @@ import * as PIXI from 'pixi.js'
 import { MapContextInformation, useMapContext } from '../MapContext'
 import { Block } from '../types'
 
+import { onMouseMove } from './events/mousemove'
+import { ObjProperties, onPointerDown } from './events/pointerdown'
 import { CELL_SIZE, generateGrid } from './grid'
-import { getNearestLocalPosition } from './utils'
 import {
   ZINDEX_CONTAINER_DETECT_EVENTS,
   ZINDEX_LAYER_BLOCKS,
@@ -127,45 +128,67 @@ function blocksLayer({
   const layer = new PIXI.Container({ width, height })
   layer.sortableChildren = true
 
-  // where blocks are drawn
-  const blockGraphics = new PIXI.Graphics({ zIndex: ZINDEX_LAYER_BLOCKS })
-
-  // where block would be drawn if user clicks
-  const hoveredBlockGraphics = new PIXI.Graphics({
-    alpha: 0.3,
+  // display a preview on current coordinates of the current object
+  const previewLayer = new PIXI.Container({
+    width,
+    height,
     zIndex: ZINDEX_PREVIEW_PLACED_OBJECT,
   })
-  let prevHoveredPos = { x: -1, y: -1 }
+  layer.addChild(previewLayer)
+
+  // where blocks are drawn
+  const blockGraphics = new PIXI.Graphics({ zIndex: ZINDEX_LAYER_BLOCKS })
 
   // this graphics is simply there to detect where the blocks will be drawn
   const events = new PIXI.Graphics({ width, height, alpha: 0 })
   events.zIndex = ZINDEX_CONTAINER_DETECT_EVENTS
   events.eventMode = 'static'
 
-  events.on('mousemove', (e) => {
-    const { nearestX, nearestY } = getNearestLocalPosition(e, layer)
-    // display a preview of the object to be placed (snapped to the grid)
-    if (nearestX === prevHoveredPos.x && nearestY === prevHoveredPos.y) {
-      return
-    } else {
-      hoveredBlockGraphics.clear()
+  events.on(
+    'mousemove',
+    onMouseMove(
+      previewLayer,
+      (props) => {
+        switch (props.id) {
+          case 'block': {
+            console.log({ props })
+            break
+          }
+          case 'spawn': {
+            console.log({ props })
+            break
+          }
+        }
+      },
+      { id: 'block', x: 0, y: 0, type: 'lava', ambience: '' },
+    ),
+  )
 
-      hoveredBlockGraphics
-        .rect(nearestX, nearestY, CELL_SIZE, CELL_SIZE)
-        .fill(0xff0000)
-
-      prevHoveredPos = { x: nearestX, y: nearestY }
-    }
-  })
-
-  events.on('pointerdown', (e) => {
-    const { nearestX, nearestY } = getNearestLocalPosition(e, layer)
-    // draw a block to at the pointer position (snap it to the grid)
-    blockGraphics.rect(nearestX, nearestY, CELL_SIZE, CELL_SIZE).fill(0x000000)
-
-    // update map data info
-    placeBlock({ x: nearestX, y: nearestY })
-  })
+  events.on(
+    'pointerdown',
+    onPointerDown(
+      layer,
+      (properties: ObjProperties) => {
+        switch (properties.id) {
+          case 'block': {
+            placeBlock({ x: properties.x, y: properties.y })
+            break
+          }
+          case 'spawn': {
+            console.log({ properties })
+            break
+          }
+        }
+      },
+      {
+        id: 'spawn',
+        type: 'lava',
+        // ambience: 'rainy',
+        x: 0,
+        y: 0,
+      },
+    ),
+  )
 
   // place blocks from the map
   blocks.forEach((block) => {
@@ -173,7 +196,6 @@ function blocksLayer({
   })
 
   layer.addChild(blockGraphics)
-  layer.addChild(hoveredBlockGraphics)
 
   // define a rectangle so something appears and can be clicked
   // even though it is transparent
