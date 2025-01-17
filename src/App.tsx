@@ -1,6 +1,6 @@
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { MantineProvider } from '@mantine/core'
+import { Group, MantineProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
 
 import { Editor } from './canvas/Editor'
@@ -36,7 +36,7 @@ function CollapseDesktop() {
   return (
     <ErrorBoundary fallback={<div>Editor crashed</div>}>
       <Editor />
-      <div
+      <Group
         style={{
           position: 'absolute',
           bottom: '1.5rem',
@@ -45,8 +45,9 @@ function CollapseDesktop() {
           width: '100%',
         }}
       >
-        <Binding binding={'F'} desc={'File'} />
-      </div>
+        <Binding binding="F" desc="File" />
+        <Binding binding="G" desc="Objects" />
+      </Group>
     </ErrorBoundary>
   )
 }

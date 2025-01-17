@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 
-import { LoadingOverlay, Modal } from '@mantine/core'
+import { Box, LoadingOverlay, Modal } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 
 import { importFromJSON } from './bindings/import'
@@ -8,13 +8,13 @@ import { saveAsBMAP, saveAsJSON } from './bindings/save'
 import { Binding } from './components/Binding'
 import { useMapContext } from './MapContext'
 
-type RootBinding = 'file'
+type ObjectType = 'block' | 'spawn'
 
-type EditorInformation = {
-  pressedRootBinding: RootBinding | null
+export type EditorContextInformation = {
+  selectedObjectType: ObjectType
 }
 
-const EditorContext = createContext<EditorInformation | null>(null)
+const EditorContext = createContext<EditorContextInformation | null>(null)
 
 export const EditorContextProvider = ({
   children,
@@ -22,14 +22,25 @@ export const EditorContextProvider = ({
   children: ReactNode
 }) => {
   const { map, setNewMap } = useMapContext()
-  const [opened, { open, close }] = useDisclosure(false)
+  const [
+    openedFileOptions,
+    { open: openFileOptions, close: closeFileOptions },
+  ] = useDisclosure(false)
   const [loading, { open: openLoading, close: closeLoading }] =
     useDisclosure(false)
 
-  const [pressedRootBinding, setPressedRootBinding] =
-    useState<EditorInformation['pressedRootBinding']>(null)
+  const [selectedObjectType, setSelectedObjectType] =
+    useState<ObjectType>('block')
 
-  useHotkeys([['F', open]])
+  useHotkeys([
+    ['F', openFileOptions],
+    [
+      'G',
+      () => {
+        setSelectedObjectType((prev) => (prev === 'block' ? 'spawn' : 'block'))
+      },
+    ],
+  ])
 
   const udpateNewMap = async () => {
     const { hasImport, map: newMap } = await importFromJSON()
@@ -46,7 +57,7 @@ export const EditorContextProvider = ({
   }
 
   return (
-    <EditorContext.Provider value={{ pressedRootBinding }}>
+    <EditorContext.Provider value={{ selectedObjectType }}>
       <LoadingOverlay
         visible={loading}
         zIndex={1000}
@@ -54,8 +65,8 @@ export const EditorContextProvider = ({
         loaderProps={{ color: 'orange', type: 'bars', size: 'xl' }}
       />
       <Modal
-        opened={opened && !loading}
-        onClose={close}
+        opened={openedFileOptions && !loading}
+        onClose={closeFileOptions}
         title="File options"
         centered
         onKeyDown={getHotkeyHandler([
@@ -68,7 +79,7 @@ export const EditorContextProvider = ({
         <Binding binding="D" desc="Save as bmap.txt" />
         <Binding binding="X" desc="Import map from JSON" />
       </Modal>
-      {children}
+      <Box>{children}</Box>
     </EditorContext.Provider>
   )
 }
