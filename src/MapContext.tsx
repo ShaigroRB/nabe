@@ -9,7 +9,7 @@ import {
 import { debug } from './debug'
 import { Block, MapInformation } from './types'
 
-const emptyMap: MapInformation = {
+export const emptyMap: MapInformation = {
   blocks: [],
 }
 

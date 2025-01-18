@@ -6,7 +6,7 @@ import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 import { importFromJSON } from './bindings/import'
 import { saveAsBMAP, saveAsJSON } from './bindings/save'
 import { Binding } from './components/Binding'
-import { useMapContext } from './MapContext'
+import { emptyMap, useMapContext } from './MapContext'
 
 type ObjectType = 'block' | 'spawn'
 
@@ -38,6 +38,12 @@ export const EditorContextProvider = ({
       'G',
       () => {
         setSelectedObjectType((prev) => (prev === 'block' ? 'spawn' : 'block'))
+      },
+    ],
+    [
+      'C',
+      () => {
+        setNewMap(emptyMap)
       },
     ],
   ])
