@@ -6,7 +6,8 @@ import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 import { importFromJSON } from './bindings/import'
 import { saveAsBMAP, saveAsJSON } from './bindings/save'
 import { Binding } from './components/Binding'
-import { emptyMap, useMapContext } from './MapContext'
+import { emptyMap } from './constants'
+import { useMapContext } from './MapContext'
 
 type ObjectType = 'block' | 'spawn'
 

@@ -6,12 +6,9 @@ import {
   useState,
 } from 'react'
 
+import { emptyMap } from './constants'
 import { debug } from './debug'
 import { Block, MapInformation } from './types'
-
-export const emptyMap: MapInformation = {
-  blocks: [],
-}
 
 export type MapContextInformation = {
   map: MapInformation
