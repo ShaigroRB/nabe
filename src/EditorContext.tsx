@@ -6,8 +6,8 @@ import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 import { importFromJSON } from './bindings/import'
 import { saveAsBMAP, saveAsJSON } from './bindings/save'
 import { Binding } from './components/Binding'
+import { useMapContext } from './mapContext/MapContext'
 import { emptyMap } from './constants'
-import { useMapContext } from './MapContext'
 
 type ObjectType = 'block' | 'spawn'
 
@@ -22,7 +22,10 @@ export const EditorContextProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const { map, setNewMap } = useMapContext()
+  const {
+    state: { map },
+    setNewMap,
+  } = useMapContext()
   const [
     openedFileOptions,
     { open: openFileOptions, close: closeFileOptions },

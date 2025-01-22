@@ -3,15 +3,21 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useReducer,
   useState,
 } from 'react'
 
-import { emptyMap } from './constants'
-import { debug } from './debug'
-import { Block, MapInformation } from './types'
+import { emptyMap } from '../constants'
+import { debug } from '../debug'
+import { Block, MapInformation } from '../types'
+
+import { MapAction } from './actions'
+import { reducer } from './reducer'
+import { MapState } from './types'
 
 export type MapContextInformation = {
-  map: MapInformation
+  state: MapState
+  dispatch: React.Dispatch<MapAction>
   placeBlock: (block: Block) => void
   /**
    * Contains information when map should be redrawn.
@@ -26,7 +32,8 @@ export type MapContextInformation = {
 const MapContext = createContext<MapContextInformation | null>(null)
 
 export const MapContextProvider = ({ children }: { children: ReactNode }) => {
-  const [map, setMap] = useState<MapInformation>(emptyMap)
+  const [state, dispatch] = useReducer(reducer, { map: emptyMap })
+
   const [newMap, setNewMap] = useState<MapInformation | null>(null)
   // initialize at true to draw the empty map first
   const [shouldRedraw, setShouldRedraw] = useState<boolean>(true)
@@ -36,27 +43,24 @@ export const MapContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const placeBlock = (newBlock: Block) => {
-    setMap((prev) => {
-      return {
-        blocks: [...prev.blocks, newBlock],
-      }
-    })
+    dispatch({ type: 'place_block', payload: { ...newBlock } })
   }
 
   useEffect(() => {
     if (newMap !== null) {
-      setMap({ ...newMap })
+      dispatch({ type: 'set_new_map', payload: { ...newMap } })
       setNewMap(null)
       setShouldRedraw(true)
     }
   }, [newMap])
 
-  debug(map)
+  debug(state)
 
   return (
     <MapContext.Provider
       value={{
-        map,
+        state,
+        dispatch,
         placeBlock,
         newMap,
         setNewMap,

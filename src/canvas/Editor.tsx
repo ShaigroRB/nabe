@@ -2,7 +2,7 @@ import { useEffect, useReducer, useState } from 'react'
 import * as PIXI from 'pixi.js'
 
 import { EditorContextInformation, useEditorContext } from '../EditorContext'
-import { MapContextInformation, useMapContext } from '../MapContext'
+import { MapContextInformation, useMapContext } from '../mapContext/MapContext'
 import { Block, MapInformation } from '../types'
 
 import { onMouseMove } from './events/mousemove'
@@ -83,7 +83,7 @@ const useInitializePixiMainContainer = () => {
       return
     }
 
-    drawMap({ map: mapContext.map })
+    drawMap({ map: mapContext.state.map })
 
     mapContext.redrawIsFinished()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- no need to redraw if redraw is not set
