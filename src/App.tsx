@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Group, MantineProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
 
-import { Editor } from './canvas/Editor'
+import { EditorCanvas } from './canvas/Canvas'
 import { Binding } from './components/Binding'
 import { MapContextProvider } from './mapContext/MapContext'
 import { EditorContextProvider } from './EditorContext'
@@ -35,7 +35,7 @@ export default App
 function CollapseDesktop() {
   return (
     <ErrorBoundary fallback={<div>Editor crashed</div>}>
-      <Editor />
+      <EditorCanvas />
       <Group
         style={{
           position: 'absolute',

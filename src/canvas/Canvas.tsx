@@ -25,7 +25,7 @@ const { rootContainer, previewLayer, drawingContainer, eventsLayer } =
  * - draw the objects (assets, tiles, etc)
  * - interact with the objects (create, move, delete, etc)
  */
-export const Editor = () => {
+export const EditorCanvas = () => {
   useInitializePixiMainContainer()
 
   return <div id="editor-content"></div>
