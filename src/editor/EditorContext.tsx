@@ -1,13 +1,14 @@
 import { createContext, ReactNode } from 'react'
 
-import { Box, LoadingOverlay, Modal } from '@mantine/core'
+import { Box, LoadingOverlay } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 
 import { importFromJSON } from '../bindings/import'
 import { saveAsBMAP, saveAsJSON } from '../bindings/save'
-import { Binding } from '../components/Binding'
 import { emptyMap } from '../constants'
 import { useMapContext } from '../mapContext/MapContext'
+
+import { FileOptions } from './FileOptions'
 
 type ObjectType = 'block' | 'spawn'
 
@@ -76,21 +77,15 @@ export const EditorContextProvider = ({
         overlayProps={{ radius: 'sm', blur: 2 }}
         loaderProps={{ color: 'orange', type: 'bars', size: 'xl' }}
       />
-      <Modal
+      <FileOptions
         opened={openedFileOptions && !loading}
         onClose={closeFileOptions}
-        title="File options"
-        centered
         onKeyDown={getHotkeyHandler([
           ['S', saveAsJSON(map)],
           ['D', saveAsBMAP(map)],
           ['X', udpateNewMap],
         ])}
-      >
-        <Binding binding="S" desc="Save file" />
-        <Binding binding="D" desc="Save as bmap.txt" />
-        <Binding binding="X" desc="Import map from JSON" />
-      </Modal>
+      />
       <Box>{children}</Box>
     </EditorContext.Provider>
   )
