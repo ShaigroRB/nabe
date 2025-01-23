@@ -7,18 +7,18 @@ import {
   useState,
 } from 'react'
 
-import { emptyMap } from '../constants'
 import { debug } from '../debug'
-import { Block, MapInformation } from '../map'
+import { Coordinates, MapInformation } from '../map'
 
 import { MapAction } from './actions'
 import { reducer } from './reducer'
-import { MapState } from './types'
+import { defaultMapState, MapState } from './state'
 
 export type MapContextInformation = {
   state: MapState
   dispatch: React.Dispatch<MapAction>
-  placeBlock: (block: Block) => void
+  /** Function to place the selected map object */
+  placeSelectedMapObject: (obj: Coordinates) => void
   /**
    * Contains information when map should be redrawn.
    * Map is redrawn after imports.
@@ -32,7 +32,7 @@ export type MapContextInformation = {
 const MapContext = createContext<MapContextInformation | null>(null)
 
 export const MapContextProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, { map: emptyMap })
+  const [state, dispatch] = useReducer(reducer, defaultMapState)
 
   const [newMap, setNewMap] = useState<MapInformation | null>(null)
   // initialize at true to draw the empty map first
@@ -42,8 +42,8 @@ export const MapContextProvider = ({ children }: { children: ReactNode }) => {
     setShouldRedraw(false)
   }
 
-  const placeBlock = (newBlock: Block) => {
-    dispatch({ type: 'place_block', payload: { ...newBlock } })
+  const placeSelectedMapObject = ({ x, y }: Coordinates) => {
+    dispatch({ type: 'place_any_object', payload: { x, y } })
   }
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const MapContextProvider = ({ children }: { children: ReactNode }) => {
       value={{
         state,
         dispatch,
-        placeBlock,
+        placeSelectedMapObject,
         newMap,
         setNewMap,
         shouldRedraw,

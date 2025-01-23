@@ -28,7 +28,7 @@ export type ObjProperties =
  */
 export function onPointerDown(
   layer: PIXI.Container,
-  dispatch: (properties: ObjProperties) => void,
+  dispatch: (coords: Coordinates) => void,
   properties: ObjProperties,
 ) {
   return async (e: PIXI.FederatedPointerEvent) => {

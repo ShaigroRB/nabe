@@ -1,13 +1,15 @@
-import { MapInformation } from '../map'
+import { Coordinates } from '../map'
 
-export type PlaceBlockAction = {
-  type: 'place_block'
-  payload: { x: number; y: number }
+import { MapState } from './state'
+
+export type PlaceMapObjectAction = {
+  type: 'place_any_object'
+  payload: Coordinates
 }
 
 export type SetNewMapAction = {
   type: 'set_new_map'
-  payload: MapInformation
+  payload: MapState['map']
 }
 
-export type MapAction = PlaceBlockAction | SetNewMapAction
+export type MapAction = PlaceMapObjectAction | SetNewMapAction

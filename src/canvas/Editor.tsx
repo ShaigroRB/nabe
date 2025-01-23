@@ -6,7 +6,7 @@ import { Block, MapInformation } from '../map'
 import { MapContextInformation, useMapContext } from '../mapContext/MapContext'
 
 import { onMouseMove } from './events/mousemove'
-import { ObjProperties, onPointerDown } from './events/pointerdown'
+import { onPointerDown } from './events/pointerdown'
 import { CELL_SIZE } from './grid'
 import {
   clearDrawingContainer,
@@ -159,17 +159,8 @@ function resetEventsListeners({
     'pointerdown',
     onPointerDown(
       drawingContainer,
-      (properties: ObjProperties) => {
-        switch (properties.id) {
-          case 'block': {
-            map.placeBlock({ x: properties.x, y: properties.y })
-            break
-          }
-          case 'spawn': {
-            // console.log({ properties })
-            break
-          }
-        }
+      (coords) => {
+        map.placeSelectedMapObject(coords)
       },
       {
         id: editor.selectedObjectType,
