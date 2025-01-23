@@ -8,7 +8,7 @@ export function reducer(state: MapState, action: MapAction): MapState {
     case 'place_any_object': {
       const mapObject = inferMapObject({
         id: state.nextId,
-        name: 'block',
+        name: state.selected.name,
         ...action.payload,
       })
       const blocks = [...state.map.blocks, mapObject]
@@ -17,6 +17,9 @@ export function reducer(state: MapState, action: MapAction): MapState {
         map: { blocks },
         nextId: state.nextId + 1,
       }
+    }
+    case 'update_selected_map_object': {
+      return { ...state, selected: { ...state.selected, name: action.name } }
     }
     case 'set_new_map': {
       // todo: retrieve the next id from map

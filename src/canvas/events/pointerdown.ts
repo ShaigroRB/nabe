@@ -1,16 +1,12 @@
 import * as PIXI from 'pixi.js'
 
 import { COLOR_BLACK, COLOR_PINK } from '../../colors'
+import { Coordinates } from '../../map'
 import { CELL_SIZE } from '../grid'
 import { TEXTURES } from '../textures'
+import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
 import { ZINDEX_LAYER_BLOCKS } from '../zIndexes'
-
-type Coordinates = { x: number; y: number }
-
-export type ObjProperties =
-  | ({ id: 'block'; type: string; ambience: string } & Coordinates)
-  | ({ id: 'spawn'; type: string } & Coordinates)
 
 /**
  * Place an object to the current coordinates
@@ -28,8 +24,8 @@ export type ObjProperties =
  */
 export function onPointerDown(
   layer: PIXI.Container,
-  dispatch: (coords: Coordinates) => void,
-  properties: ObjProperties,
+  dispatch: (coordinates: Coordinates) => void,
+  properties: DrawnObjProperties,
 ) {
   return async (e: PIXI.FederatedPointerEvent) => {
     const { nearestX: x, nearestY: y } = getNearestLocalPosition(e, layer)
@@ -37,7 +33,7 @@ export function onPointerDown(
     // todo(perf): possible performance improvement for graphics
     // we aren't reusing graphics between each click, just recreating new ones
 
-    switch (properties.id) {
+    switch (properties.name) {
       case 'block': {
         const blockGraphics = new PIXI.Graphics({ zIndex: ZINDEX_LAYER_BLOCKS })
         // draw a block to at the pointer position (snap it to the grid)

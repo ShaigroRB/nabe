@@ -1,7 +1,6 @@
 import { useEffect, useReducer, useState } from 'react'
 import * as PIXI from 'pixi.js'
 
-import { EditorContextInformation, useEditorContext } from '../EditorContext'
 import { Block, MapInformation } from '../map'
 import { MapContextInformation, useMapContext } from '../mapContext/MapContext'
 
@@ -47,7 +46,6 @@ async function initializePixiApp(container: HTMLElement) {
 
 const useInitializePixiMainContainer = () => {
   const mapContext = useMapContext()
-  const editorContext = useEditorContext()
   const editorContainer = document.getElementById('editor-content')
   const [, forceUpdate] = useReducer((x) => x + 1, 0)
 
@@ -95,9 +93,9 @@ const useInitializePixiMainContainer = () => {
       return
     }
 
-    resetEventsListeners({ editor: editorContext, map: mapContext })
+    resetEventsListeners({ map: mapContext })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pixiApp, editorContext.selectedObjectType])
+  }, [pixiApp, mapContext.state.selected.name])
 
   return editorContainer
 }
@@ -126,13 +124,7 @@ function drawBlocksLayer({ blocks }: BlocksLayerFuncParam) {
   })
 }
 
-function resetEventsListeners({
-  editor,
-  map,
-}: {
-  editor: EditorContextInformation
-  map: MapContextInformation
-}) {
+function resetEventsListeners({ map }: { map: MapContextInformation }) {
   eventsLayer.removeAllListeners()
 
   eventsLayer.on(
@@ -140,7 +132,7 @@ function resetEventsListeners({
     onMouseMove(
       previewLayer,
       (props) => {
-        switch (props.id) {
+        switch (props.name) {
           case 'block': {
             // console.log({ props })
             break
@@ -151,7 +143,7 @@ function resetEventsListeners({
           }
         }
       },
-      { id: editor.selectedObjectType, x: 0, y: 0, type: 'lava', ambience: '' },
+      { x: 0, y: 0, ...map.state.selected },
     ),
   )
 
@@ -162,13 +154,7 @@ function resetEventsListeners({
       (coords) => {
         map.placeSelectedMapObject(coords)
       },
-      {
-        id: editor.selectedObjectType,
-        type: 'lava',
-        ambience: 'rainy',
-        x: 0,
-        y: 0,
-      },
+      { x: 0, y: 0, ...map.state.selected },
     ),
   )
 }

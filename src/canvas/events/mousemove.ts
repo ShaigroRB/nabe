@@ -3,14 +3,9 @@ import * as PIXI from 'pixi.js'
 import { COLOR_PINK, COLOR_RED } from '../../colors'
 import { CELL_SIZE } from '../grid'
 import { TEXTURES } from '../textures'
+import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
 import { ZINDEX_PREVIEW_PLACED_OBJECT } from '../zIndexes'
-
-type Coordinates = { x: number; y: number }
-
-export type ObjProperties =
-  | ({ id: 'block'; type: string; ambience: string } & Coordinates)
-  | ({ id: 'spawn'; type: string } & Coordinates)
 
 const ALPHA_PREVIEW_OBJECT = 0.3
 
@@ -38,8 +33,8 @@ let prevHoveredPos = { x: -1, y: -1 }
  */
 export function onMouseMove(
   layer: PIXI.Container,
-  dispatch: (properties: ObjProperties) => void,
-  properties: ObjProperties,
+  dispatch: (properties: DrawnObjProperties) => void,
+  properties: DrawnObjProperties,
 ) {
   return async (e: PIXI.FederatedPointerEvent) => {
     const { nearestX: x, nearestY: y } = getNearestLocalPosition(e, layer)
@@ -53,7 +48,7 @@ export function onMouseMove(
     // (graphics, sprite) that interests us
     layer.removeChildren()
 
-    switch (properties.id) {
+    switch (properties.name) {
       case 'block': {
         hoveredBlockGraphics.clear()
         hoveredBlockGraphics.rect(x, y, CELL_SIZE, CELL_SIZE).fill(COLOR_RED)

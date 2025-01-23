@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode } from 'react'
 
 import { Box, LoadingOverlay, Modal } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
@@ -23,8 +23,9 @@ export const EditorContextProvider = ({
   children: ReactNode
 }) => {
   const {
-    state: { map },
+    state: { map, selected },
     setNewMap,
+    dispatch,
   } = useMapContext()
   const [
     openedFileOptions,
@@ -33,15 +34,16 @@ export const EditorContextProvider = ({
   const [loading, { open: openLoading, close: closeLoading }] =
     useDisclosure(false)
 
-  const [selectedObjectType, setSelectedObjectType] =
-    useState<ObjectType>('block')
-
   useHotkeys([
     ['F', openFileOptions],
     [
       'G',
       () => {
-        setSelectedObjectType((prev) => (prev === 'block' ? 'spawn' : 'block'))
+        const { name } = selected
+        dispatch({
+          type: 'update_selected_map_object',
+          name: name === 'block' ? 'spawn' : 'block',
+        })
       },
     ],
     [
@@ -67,7 +69,7 @@ export const EditorContextProvider = ({
   }
 
   return (
-    <EditorContext.Provider value={{ selectedObjectType }}>
+    <EditorContext.Provider value={{ selectedObjectType: selected.name }}>
       <LoadingOverlay
         visible={loading}
         zIndex={1000}
@@ -92,17 +94,4 @@ export const EditorContextProvider = ({
       <Box>{children}</Box>
     </EditorContext.Provider>
   )
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useEditorContext = () => {
-  const context = useContext(EditorContext)
-
-  if (context === null) {
-    throw new Error(
-      'EditorContext: Component is not a child of a EditorContextProvider',
-    )
-  }
-
-  return context
 }
