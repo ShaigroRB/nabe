@@ -9,6 +9,7 @@ import { emptyMap } from '../constants'
 import { useMapContext } from '../mapContext/MapContext'
 
 import { FileOptions } from './FileOptions'
+import { MapObjectSelector } from './MapObjectSelector'
 
 type ObjectType = 'block' | 'spawn'
 
@@ -34,19 +35,14 @@ export const EditorContextProvider = ({
   ] = useDisclosure(false)
   const [loading, { open: openLoading, close: closeLoading }] =
     useDisclosure(false)
+  const [
+    openedMapObjSelector,
+    { open: openMapObjSelector, close: closeMapObjSelector },
+  ] = useDisclosure(false)
 
   useHotkeys([
     ['F', openFileOptions],
-    [
-      'G',
-      () => {
-        const { name } = selected
-        dispatch({
-          type: 'update_selected_map_object',
-          name: name === 'block' ? 'spawn' : 'block',
-        })
-      },
-    ],
+    ['G', openMapObjSelector],
     [
       'C',
       () => {
@@ -85,6 +81,13 @@ export const EditorContextProvider = ({
           ['D', saveAsBMAP(map)],
           ['X', udpateNewMap],
         ])}
+      />
+      <MapObjectSelector
+        selectObj={(name) => {
+          dispatch({ type: 'update_selected_map_object', name })
+        }}
+        opened={openedMapObjSelector}
+        onClose={closeMapObjSelector}
       />
       <Box>{children}</Box>
     </EditorContext.Provider>
