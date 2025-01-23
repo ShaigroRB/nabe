@@ -6,7 +6,7 @@ import { Notifications } from '@mantine/notifications'
 import { EditorCanvas } from './canvas/Canvas'
 import { Binding } from './components/Binding'
 import { MapContextProvider } from './mapContext/MapContext'
-import { EditorContextProvider } from './EditorContext'
+import { EditorContextProvider } from './editor/EditorContext'
 
 // core styles are required for all packages
 import '@mantine/core/styles.css'

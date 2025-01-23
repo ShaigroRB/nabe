@@ -3,11 +3,11 @@ import { createContext, ReactNode } from 'react'
 import { Box, LoadingOverlay, Modal } from '@mantine/core'
 import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 
-import { importFromJSON } from './bindings/import'
-import { saveAsBMAP, saveAsJSON } from './bindings/save'
-import { Binding } from './components/Binding'
-import { useMapContext } from './mapContext/MapContext'
-import { emptyMap } from './constants'
+import { importFromJSON } from '../bindings/import'
+import { saveAsBMAP, saveAsJSON } from '../bindings/save'
+import { Binding } from '../components/Binding'
+import { emptyMap } from '../constants'
+import { useMapContext } from '../mapContext/MapContext'
 
 type ObjectType = 'block' | 'spawn'
 
