@@ -1,5 +1,5 @@
 import { CELL_SIZE } from '../canvas/grid'
-import { Block } from '../types'
+import { Block } from '../map'
 
 type BmapObject = Record<string, string>
 

@@ -1,4 +1,4 @@
-import { Block } from '../types'
+import { Block } from '../map'
 
 import { MapAction } from './actions'
 import { MapState } from './types'

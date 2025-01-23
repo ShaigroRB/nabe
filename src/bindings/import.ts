@@ -1,7 +1,7 @@
 import { notifications } from '@mantine/notifications'
 
 import { openFile, readFile } from '../tauri/file'
-import { MapInformation } from '../types'
+import { MapInformation } from '../map'
 
 type ImportFromJSONResult =
   | { hasImport: false; map: null }

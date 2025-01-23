@@ -9,7 +9,7 @@ import {
 
 import { emptyMap } from '../constants'
 import { debug } from '../debug'
-import { Block, MapInformation } from '../types'
+import { Block, MapInformation } from '../map'
 
 import { MapAction } from './actions'
 import { reducer } from './reducer'

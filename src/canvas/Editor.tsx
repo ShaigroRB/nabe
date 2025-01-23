@@ -2,8 +2,8 @@ import { useEffect, useReducer, useState } from 'react'
 import * as PIXI from 'pixi.js'
 
 import { EditorContextInformation, useEditorContext } from '../EditorContext'
+import { Block, MapInformation } from '../map'
 import { MapContextInformation, useMapContext } from '../mapContext/MapContext'
-import { Block, MapInformation } from '../types'
 
 import { onMouseMove } from './events/mousemove'
 import { ObjProperties, onPointerDown } from './events/pointerdown'

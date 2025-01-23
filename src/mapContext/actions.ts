@@ -1,4 +1,4 @@
-import { MapInformation } from '../types'
+import { MapInformation } from '../map'
 
 export type PlaceBlockAction = {
   type: 'place_block'

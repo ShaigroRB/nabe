@@ -6,7 +6,7 @@ import {
 } from '../conversion/blocks'
 import { defaultConfig } from '../conversion/config'
 import { writeFile } from '../tauri/file'
-import { MapInformation } from '../types'
+import { MapInformation } from '../map'
 
 export function saveAsJSON(map: MapInformation) {
   return async (e: any) => {
