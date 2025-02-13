@@ -12,7 +12,12 @@ import {
 } from '@mantine/core'
 
 import { MapObjectName } from '../map'
-import { TextureBlock, TextureSpawn } from '../react_textures'
+import {
+  TextureBlock,
+  TextureLadder,
+  TextureSpawn,
+  TextureTerrain,
+} from '../react_textures'
 
 import './tint.css'
 
@@ -38,6 +43,8 @@ type Tint = (typeof tints)[number]
 const mapObjects: [MapObjectName, TextureImgSrc, Tint][] = [
   ['block', TextureBlock, 'normal'],
   ['spawn', TextureSpawn, 'pink'],
+  ['ladder', TextureLadder, 'blue'],
+  ['terrain', TextureTerrain, 'normal'],
 ]
 
 type Props = Pick<DrawerProps, 'opened' | 'onClose'> & {

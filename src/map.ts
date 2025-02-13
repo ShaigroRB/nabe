@@ -8,6 +8,8 @@ type BaseObjectProperties = { id: number } & Coordinates
 export type MapObjectProperties =
   | ({ name: 'block' } & BaseObjectProperties)
   | ({ name: 'spawn' } & BaseObjectProperties)
+  | ({ name: 'ladder' } & BaseObjectProperties)
+  | ({ name: 'terrain' } & BaseObjectProperties)
 
 export type MapObjectPropertiesWithoutId = Omit<MapObjectProperties, 'id'>
 

@@ -1,12 +1,11 @@
 import * as PIXI from 'pixi.js'
 
-import { COLOR_BLACK, COLOR_PINK } from '../../colors'
+import { COLOR_BLUE, COLOR_PINK, COLOR_TYPE_NORMAL } from '../../colors'
 import { Coordinates } from '../../map'
 import { CELL_SIZE } from '../grid'
 import { TEXTURES } from '../textures'
 import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
-import { ZINDEX_LAYER_BLOCKS } from '../zIndexes'
 
 /**
  * Place an object to the current coordinates
@@ -28,6 +27,7 @@ export function onPointerDown(
   properties: DrawnObjProperties,
 ) {
   return async (e: PIXI.FederatedPointerEvent) => {
+    console.log(e)
     const { nearestX: x, nearestY: y } = getNearestLocalPosition(e, layer)
 
     // todo(perf): possible performance improvement for graphics
@@ -35,13 +35,47 @@ export function onPointerDown(
 
     switch (properties.name) {
       case 'block': {
-        const blockGraphics = new PIXI.Graphics({ zIndex: ZINDEX_LAYER_BLOCKS })
-        // draw a block to at the pointer position (snap it to the grid)
-        blockGraphics.rect(x, y, CELL_SIZE, CELL_SIZE).fill(COLOR_BLACK)
+        const block = new PIXI.Sprite({
+          texture: TEXTURES.block,
+          x,
+          y,
+          width: CELL_SIZE,
+          height: CELL_SIZE,
+          tint: COLOR_TYPE_NORMAL,
+        })
 
-        layer.addChild(blockGraphics)
+        layer.addChild(block)
 
-        // update map data info
+        dispatch({ ...properties, x, y })
+        break
+      }
+      case 'terrain': {
+        const terrain = new PIXI.Sprite({
+          texture: TEXTURES.terrain,
+          x,
+          y,
+          width: CELL_SIZE * 4,
+          height: CELL_SIZE * 2,
+          tint: COLOR_TYPE_NORMAL,
+        })
+
+        layer.addChild(terrain)
+
+        dispatch({ ...properties, x, y })
+        break
+      }
+      case 'ladder': {
+        const ladder = new PIXI.Sprite({
+          texture: TEXTURES.ladder,
+          x,
+          y,
+          width: CELL_SIZE,
+          height: CELL_SIZE,
+          tint: COLOR_BLUE,
+        })
+
+        layer.addChild(ladder)
+
         dispatch({ ...properties, x, y })
         break
       }

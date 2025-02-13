@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-import { COLOR_PINK, COLOR_RED } from '../../colors'
+import { COLOR_RED } from '../../colors'
 import { CELL_SIZE } from '../grid'
 import { TEXTURES } from '../textures'
 import { DrawnObjProperties } from '../types'
@@ -60,6 +60,22 @@ export function onMouseMove(
         dispatch({ ...properties, x, y })
         break
       }
+      case 'ladder': {
+        const ladder = new PIXI.Sprite({
+          alpha: ALPHA_PREVIEW_OBJECT,
+          texture: TEXTURES.ladder,
+          x,
+          y,
+          width: CELL_SIZE,
+          height: CELL_SIZE,
+          tint: COLOR_RED,
+        })
+
+        layer.addChild(ladder)
+
+        dispatch({ ...properties, x, y })
+        break
+      }
       case 'spawn': {
         const spawn = new PIXI.Sprite({
           alpha: ALPHA_PREVIEW_OBJECT,
@@ -68,10 +84,26 @@ export function onMouseMove(
           y,
           width: CELL_SIZE,
           height: CELL_SIZE,
-          tint: COLOR_PINK,
+          tint: COLOR_RED,
         })
 
         layer.addChild(spawn)
+
+        dispatch({ ...properties, x, y })
+        break
+      }
+      case 'terrain': {
+        const terrain = new PIXI.Sprite({
+          alpha: ALPHA_PREVIEW_OBJECT,
+          texture: TEXTURES.terrain,
+          x,
+          y,
+          width: CELL_SIZE * 4,
+          height: CELL_SIZE * 2,
+          tint: COLOR_RED,
+        })
+
+        layer.addChild(terrain)
 
         dispatch({ ...properties, x, y })
         break
