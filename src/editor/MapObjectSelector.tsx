@@ -51,7 +51,7 @@ type Props = Pick<DrawerProps, 'opened' | 'onClose'> & {
   selectObj: (obj: MapObjectName) => void
 }
 export const MapObjectSelector = ({ opened, onClose, selectObj }: Props) => {
-  const [value, setValue] = useState('')
+  const [search, setSearch] = useState('')
   return (
     <Drawer
       title="Select an object"
@@ -63,12 +63,12 @@ export const MapObjectSelector = ({ opened, onClose, selectObj }: Props) => {
       <Stack>
         <Input
           placeholder="Search"
-          value={value}
-          onChange={(e) => setValue(e.currentTarget.value)}
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
           leftSection={<SearchIcon />}
         />
         {mapObjects
-          .filter(([name]) => name.includes(value))
+          .filter(([name]) => name.includes(search))
           .map(([name, src, tint]) => {
             return (
               <Button
