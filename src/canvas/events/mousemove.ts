@@ -2,20 +2,13 @@ import * as PIXI from 'pixi.js'
 
 import { COLOR_RED } from '../../colors'
 import { CELL_SIZE } from '../grid'
-import { TEXTURES } from '../textures'
+import { loadPixiAsset } from '../textures'
 import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
-import { ZINDEX_PREVIEW_PLACED_OBJECT } from '../zIndexes'
 
 const ALPHA_PREVIEW_OBJECT = 0.3
 
 // where block would be drawn if user clicks
-const hoveredBlockGraphics = new PIXI.Graphics({
-  alpha: ALPHA_PREVIEW_OBJECT,
-  zIndex: ZINDEX_PREVIEW_PLACED_OBJECT,
-})
-
-let prevHoveredPos = { x: -1, y: -1 }
 
 /**
  * Display a preview of the object to be drawn to the current coordinates
@@ -39,23 +32,26 @@ export function onMouseMove(
   return async (e: PIXI.FederatedPointerEvent) => {
     const { nearestX: x, nearestY: y } = getNearestLocalPosition(e, layer)
 
-    if (x === prevHoveredPos.x && y === prevHoveredPos.y) {
-      return
-    }
-
     // todo(perf): possible performance improvement for everything
     // we are removing all children to clear the preview, before adding the PIXI object
     // (graphics, sprite) that interests us
     layer.removeChildren()
 
+    const texture = await loadPixiAsset(properties.name)
+
     switch (properties.name) {
       case 'block': {
-        hoveredBlockGraphics.clear()
-        hoveredBlockGraphics.rect(x, y, CELL_SIZE, CELL_SIZE).fill(COLOR_RED)
+        const block = new PIXI.Sprite({
+          alpha: ALPHA_PREVIEW_OBJECT,
+          texture,
+          x,
+          y,
+          width: CELL_SIZE,
+          height: CELL_SIZE,
+          tint: COLOR_RED,
+        })
 
-        prevHoveredPos = { x, y }
-
-        layer.addChild(hoveredBlockGraphics)
+        layer.addChild(block)
         // update map data info
         dispatch({ ...properties, x, y })
         break
@@ -63,7 +59,7 @@ export function onMouseMove(
       case 'ladder': {
         const ladder = new PIXI.Sprite({
           alpha: ALPHA_PREVIEW_OBJECT,
-          texture: TEXTURES.ladder,
+          texture,
           x,
           y,
           width: CELL_SIZE,
@@ -79,7 +75,7 @@ export function onMouseMove(
       case 'spawn': {
         const spawn = new PIXI.Sprite({
           alpha: ALPHA_PREVIEW_OBJECT,
-          texture: TEXTURES.spawn,
+          texture,
           x,
           y,
           width: CELL_SIZE,
@@ -95,7 +91,7 @@ export function onMouseMove(
       case 'terrain': {
         const terrain = new PIXI.Sprite({
           alpha: ALPHA_PREVIEW_OBJECT,
-          texture: TEXTURES.terrain,
+          texture,
           x,
           y,
           width: CELL_SIZE * 4,

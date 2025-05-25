@@ -11,7 +11,7 @@ import { useMapContext } from '../mapContext/MapContext'
 import { FileOptions } from './FileOptions'
 import { MapObjectSelector } from './MapObjectSelector'
 
-type ObjectType = 'block' | 'spawn'
+type ObjectType = 'block' | 'spawn' | 'ladder' | 'terrain'
 
 export type EditorContextInformation = {
   selectedObjectType: ObjectType

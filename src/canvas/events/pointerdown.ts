@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { COLOR_BLUE, COLOR_PINK, COLOR_TYPE_NORMAL } from '../../colors'
 import { Coordinates } from '../../map'
 import { CELL_SIZE } from '../grid'
-import { TEXTURES } from '../textures'
+import { loadPixiAsset } from '../textures'
 import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
 
@@ -33,10 +33,11 @@ export function onPointerDown(
     // todo(perf): possible performance improvement for graphics
     // we aren't reusing graphics between each click, just recreating new ones
 
+    const texture = await loadPixiAsset(properties.name)
     switch (properties.name) {
       case 'block': {
         const block = new PIXI.Sprite({
-          texture: TEXTURES.block,
+          texture,
           x,
           y,
           width: CELL_SIZE,
@@ -51,7 +52,7 @@ export function onPointerDown(
       }
       case 'terrain': {
         const terrain = new PIXI.Sprite({
-          texture: TEXTURES.terrain,
+          texture,
           x,
           y,
           width: CELL_SIZE * 4,
@@ -66,7 +67,7 @@ export function onPointerDown(
       }
       case 'ladder': {
         const ladder = new PIXI.Sprite({
-          texture: TEXTURES.ladder,
+          texture,
           x,
           y,
           width: CELL_SIZE,
@@ -81,7 +82,7 @@ export function onPointerDown(
       }
       case 'spawn': {
         const spawn = new PIXI.Sprite({
-          texture: TEXTURES.spawn,
+          texture,
           x,
           y,
           width: CELL_SIZE,

@@ -1,5 +1,6 @@
 import { Assets } from 'pixi.js'
 
+import { MapObjectName } from '../map'
 import {
   TextureBlock,
   TextureLadder,
@@ -16,18 +17,24 @@ import {
   TextureTerrain,
 } from '../react_textures'
 
-export const TEXTURES = {
-  block: await Assets.load(TextureBlock),
-  ladder: await Assets.load(TextureLadder),
-  long_ramp_bottom_left: await Assets.load(TextureLongRampBottomLeft),
-  long_ramp_bottom_right: await Assets.load(TextureLongRampBottomRight),
-  long_ramp_top_left: await Assets.load(TextureLongRampTopLeft),
-  long_ramp_top_right: await Assets.load(TextureLongRampTopRight),
-  platform: await Assets.load(TexturePlatform),
-  ramp_bottom_left: await Assets.load(TextureRampBottomLeft),
-  ramp_bottom_right: await Assets.load(TextureRampBottomRight),
-  ramp_top_left: await Assets.load(TextureRampTopLeft),
-  ramp_top_right: await Assets.load(TextureRampTopRight),
-  spawn: await Assets.load(TextureSpawn),
-  terrain: await Assets.load(TextureTerrain),
+const assets: { alias: MapObjectName; src: string }[] = [
+  { alias: 'block', src: TextureBlock },
+  { alias: 'ladder', src: TextureLadder },
+  { alias: 'long_ramp_bottom_left', src: TextureLongRampBottomLeft },
+  { alias: 'long_ramp_bottom_right', src: TextureLongRampBottomRight },
+  { alias: 'long_ramp_top_left', src: TextureLongRampTopLeft },
+  { alias: 'long_ramp_top_right', src: TextureLongRampTopRight },
+  { alias: 'platform', src: TexturePlatform },
+  { alias: 'ramp_bottom_left', src: TextureRampBottomLeft },
+  { alias: 'ramp_bottom_right', src: TextureRampBottomRight },
+  { alias: 'ramp_top_left', src: TextureRampTopLeft },
+  { alias: 'ramp_top_right', src: TextureRampTopRight },
+  { alias: 'spawn', src: TextureSpawn },
+  { alias: 'terrain', src: TextureTerrain },
+]
+
+Assets.add(assets)
+
+export async function loadPixiAsset(asset: MapObjectName) {
+  return await Assets.load(asset)
 }
