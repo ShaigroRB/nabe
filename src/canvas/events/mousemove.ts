@@ -39,6 +39,7 @@ export function onMouseMove(
 
     const texture = await loadPixiAsset(properties.name)
 
+    // NEW_ASSET: update the switch case to draw the new asset
     switch (properties.name) {
       case 'block': {
         const block = new PIXI.Sprite({

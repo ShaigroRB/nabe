@@ -11,6 +11,9 @@ export function reducer(state: MapState, action: MapAction): MapState {
         name: state.selected.name,
         ...action.payload,
       })
+
+      // NEW_ASSET: new case if new type in MapInformation
+
       const blocks = [...state.map.blocks, mapObject]
       return {
         ...state,

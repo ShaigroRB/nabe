@@ -5,8 +5,8 @@ import {
   bmapObjsToRecordBmapObjs,
 } from '../conversion/blocks'
 import { defaultConfig } from '../conversion/config'
-import { writeFile } from '../tauri/file'
 import { MapInformation } from '../map'
+import { writeFile } from '../tauri/file'
 
 export function saveAsJSON(map: MapInformation) {
   return async (e: any) => {
@@ -33,6 +33,7 @@ export function saveAsJSON(map: MapInformation) {
   }
 }
 
+// NEW_ASSET: adapt conversion to bmap.txt
 function createBmapContent(map: MapInformation) {
   const bmapBlocks = map.blocks.map(blockToBmapBlock)
   const bmap: Record<string, Record<string, string>> = {

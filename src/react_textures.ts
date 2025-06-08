@@ -27,3 +27,5 @@ export {
   TextureSpawn,
   TextureTerrain,
 }
+
+// NEW_ASSET: add new asset image to this file. Don't forget to export it.

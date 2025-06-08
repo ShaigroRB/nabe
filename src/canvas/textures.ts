@@ -17,6 +17,8 @@ import {
   TextureTerrain,
 } from '../react_textures'
 
+// NEW_ASSET: add alias & src to assets array
+
 const assets: { alias: MapObjectName; src: string }[] = [
   { alias: 'block', src: TextureBlock },
   { alias: 'ladder', src: TextureLadder },

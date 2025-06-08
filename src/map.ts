@@ -5,6 +5,7 @@ export type Coordinates = {
 
 type BaseObjectProperties = { id: number } & Coordinates
 
+// NEW_ASSET: add a new map object property with a new name
 export type MapObjectProperties =
   | ({ name: 'block' } & BaseObjectProperties)
   | ({ name: 'spawn' } & BaseObjectProperties)
@@ -20,6 +21,7 @@ export type MapObjectName = MapObjectProperties['name']
 
 export type Block = MapObjectViaName<'block'>
 
+// NEW_ASSET: add a new type if needed in MapInformation type
 export type MapInformation = {
   blocks: Block[]
 }

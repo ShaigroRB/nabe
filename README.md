@@ -36,33 +36,16 @@ For Tauri:
 
 - Tauri: https://open-vsx.org/extension/tauri-apps/tauri-vscode
 
-## React + Typescript + Vite template
+## Implement a new asset
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Add an image representing the asset
 
-Currently, two official plugins are available:
+The image should be white by default.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The image should be put in `src/assets/textures/`.
 
-### Expanding the ESLint configuration
+### Follow the instructions
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Search for `NEW_ASSET` in the codebase and follow the instructions to implement a new asset.
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+If a new function that do different things depending on an asset, don't forget to add a comment `// NEW_ASSET: ...` with an explanation on what to do.

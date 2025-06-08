@@ -106,6 +106,7 @@ type DrawMapProps = {
 function drawMap({ map }: DrawMapProps) {
   clearDrawingContainer()
 
+  // NEW_ASSET: draw new asset when importing from JSON
   drawBlocksLayer({
     blocks: map.blocks,
   })
