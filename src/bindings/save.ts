@@ -9,6 +9,7 @@ import { MapInformation } from '../map'
 import { writeFile } from '../tauri/file'
 
 export function saveAsJSON(map: MapInformation) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dunno what's the type of this event in this situation but not important
   return async (e: any) => {
     e.stopPropagation()
     e.preventDefault()
@@ -45,6 +46,7 @@ function createBmapContent(map: MapInformation) {
 }
 
 export function saveAsBMAP(map: MapInformation) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dunno what's the type of this event in this situation but not important
   return async (e: any) => {
     e.stopPropagation()
     e.preventDefault()
