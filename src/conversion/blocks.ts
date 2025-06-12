@@ -1,7 +1,25 @@
 import { CELL_SIZE } from '../canvas/grid'
-import { Block, Ladder, Spawn, Terrain } from '../map'
+import { Block, Coordinates, Ladder, Spawn, Terrain } from '../map'
+
+/**
+ * Grid width & height are usually the same in game.
+ * I'm using the default one since it's very rarely changed by players.
+ * The unit is in pixels.
+ */
+const BMAP_GRID_SIZE = 128
+const BMAP_MIDDLE_GRID_SIZE = BMAP_GRID_SIZE / 2
 
 type BmapObject = Record<string, string>
+
+function nabeCoordToBmapCoord(n: number) {
+  return (n / CELL_SIZE) * BMAP_GRID_SIZE
+}
+function computeBaseBmapCoordinates(coords: Coordinates) {
+  return {
+    X: nabeCoordToBmapCoord(coords.x),
+    Y: nabeCoordToBmapCoord(coords.y),
+  }
+}
 
 function allJSONValuesToString(json: Record<string, unknown>) {
   const result: Record<string, string> = {}
@@ -18,8 +36,7 @@ function allJSONValuesToString(json: Record<string, unknown>) {
  */
 export function blockToBmapBlock(block: Block, id: number): BmapObject {
   const bmap = {
-    Y: `${(block.y / CELL_SIZE) * 128}`,
-    X: `${(block.x / CELL_SIZE) * 128}`,
+    ...computeBaseBmapCoordinates(block),
     LogicID: `${id}`,
     ID: `${id}`,
     Poly: 0,
@@ -35,9 +52,10 @@ export function blockToBmapBlock(block: Block, id: number): BmapObject {
 }
 
 export function spawnToBmapSpawn(spawn: Spawn, id: number): BmapObject {
+  const { X, Y } = computeBaseBmapCoordinates(spawn)
   const bmap = {
-    Y: `${(spawn.y / CELL_SIZE) * 128 + 64}`,
-    X: `${(spawn.x / CELL_SIZE) * 128 + 64}`,
+    X: X + BMAP_MIDDLE_GRID_SIZE,
+    Y: Y + BMAP_MIDDLE_GRID_SIZE,
     LogicID: id,
     ID: id,
     Poly: '0',
@@ -51,9 +69,10 @@ export function spawnToBmapSpawn(spawn: Spawn, id: number): BmapObject {
 }
 
 export function ladderToBmapLadder(ladder: Ladder, id: number): BmapObject {
+  const { X, Y } = computeBaseBmapCoordinates(ladder)
   return allJSONValuesToString({
-    Y: `${(ladder.y / CELL_SIZE) * 128 + 64}`,
-    X: `${(ladder.x / CELL_SIZE) * 128 + 64}`,
+    X: X + BMAP_MIDDLE_GRID_SIZE,
+    Y: Y + BMAP_MIDDLE_GRID_SIZE,
     ID: id,
     LogicID: id,
     Poly: '0',
@@ -67,8 +86,7 @@ export function ladderToBmapLadder(ladder: Ladder, id: number): BmapObject {
 
 export function terrainToBmapTerrain(terrain: Terrain, id: number): BmapObject {
   return allJSONValuesToString({
-    Y: `${(terrain.y / CELL_SIZE) * 128}`,
-    X: `${(terrain.x / CELL_SIZE) * 128}`,
+    ...computeBaseBmapCoordinates(terrain),
     ID: id,
     LogicID: id,
     Poly: '0',
