@@ -1,12 +1,12 @@
 import { useEffect, useReducer, useState } from 'react'
 import * as PIXI from 'pixi.js'
 
-import { Block, MapInformation } from '../map'
+import { MapInformation } from '../map'
 import { MapContextInformation, useMapContext } from '../mapContext/MapContext'
 
 import { onMouseMove } from './events/mousemove'
 import { onPointerDown } from './events/pointerdown'
-import { CELL_SIZE } from './grid'
+import { drawMapObject } from './draw'
 import {
   clearDrawingContainer,
   createPixiAppStructure,
@@ -81,7 +81,17 @@ const useInitializePixiMainContainer = () => {
       return
     }
 
-    drawMap({ map: mapContext.state.map })
+    async function drawMap(map: MapInformation) {
+      clearDrawingContainer()
+
+      Object.values(map).forEach((arrOfObjs) => {
+        arrOfObjs.forEach(async (obj) => {
+          await drawMapObject(drawingContainer, obj)
+        })
+      })
+    }
+
+    drawMap(mapContext.state.map)
 
     mapContext.redrawIsFinished()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- no need to redraw if redraw is not set
@@ -100,31 +110,6 @@ const useInitializePixiMainContainer = () => {
   return editorContainer
 }
 
-type DrawMapProps = {
-  map: MapInformation
-}
-function drawMap({ map }: DrawMapProps) {
-  clearDrawingContainer()
-
-  // NEW_ASSET: draw new asset when importing from JSON
-  drawBlocksLayer({
-    blocks: map.blocks,
-  })
-}
-
-type BlocksLayerFuncParam = {
-  blocks: Block[]
-}
-function drawBlocksLayer({ blocks }: BlocksLayerFuncParam) {
-  const blocksLayer = new PIXI.Graphics()
-  drawingContainer.addChild(blocksLayer)
-
-  // place blocks from the map
-  blocks.forEach((block) => {
-    blocksLayer.rect(block.x, block.y, CELL_SIZE, CELL_SIZE).fill(0x000000)
-  })
-}
-
 function resetEventsListeners({ map }: { map: MapContextInformation }) {
   eventsLayer.removeAllListeners()
 
@@ -134,11 +119,9 @@ function resetEventsListeners({ map }: { map: MapContextInformation }) {
       previewLayer,
       (props) => {
         switch (props.name) {
-          case 'block': {
-            // console.log({ props })
-            break
-          }
-          case 'spawn': {
+          case 'block':
+          case 'spawn':
+          case 'ladder': {
             // console.log({ props })
             break
           }

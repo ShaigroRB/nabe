@@ -3,6 +3,9 @@ import { notifications } from '@mantine/notifications'
 import {
   blockToBmapBlock,
   bmapObjsToRecordBmapObjs,
+  ladderToBmapLadder,
+  spawnToBmapSpawn,
+  terrainToBmapTerrain,
 } from '../conversion/blocks'
 import { defaultConfig } from '../conversion/config'
 import { MapInformation } from '../map'
@@ -37,9 +40,17 @@ export function saveAsJSON(map: MapInformation) {
 // NEW_ASSET: adapt conversion to bmap.txt
 function createBmapContent(map: MapInformation) {
   const bmapBlocks = map.blocks.map(blockToBmapBlock)
+  const bmapTerrains = map.terrains.map(terrainToBmapTerrain)
+  const bmapLadders = map.ladders.map(ladderToBmapLadder)
+  const bmapSpawns = map.spawns.map(spawnToBmapSpawn)
   const bmap: Record<string, Record<string, string>> = {
     Config: defaultConfig,
-    ...bmapObjsToRecordBmapObjs(bmapBlocks),
+    ...bmapObjsToRecordBmapObjs([
+      ...bmapBlocks,
+      ...bmapLadders,
+      ...bmapSpawns,
+      ...bmapTerrains,
+    ]),
   }
 
   return `Nabe content\n0\n-1\n${JSON.stringify(bmap)}\n{}`
