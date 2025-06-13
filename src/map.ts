@@ -23,7 +23,7 @@ export type MapObjectViaName<Name extends MapObjectProperties['name']> =
   Extract<MapObjectProperties, { name: Name }>
 
 export type MapObjectName = MapObjectProperties['name']
-export type PluralMabObjectName = `${MapObjectName}s`
+export type PluralMapObjectName = `${MapObjectName}s`
 
 // NEW_ASSET: add a new type here
 export type Block = MapObjectViaName<'block'>

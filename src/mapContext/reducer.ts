@@ -1,4 +1,4 @@
-import { inferMapObject, PluralMabObjectName } from '../map'
+import { inferMapObject, PluralMapObjectName } from '../map'
 
 import { MapAction } from './actions'
 import { MapState } from './state'
@@ -12,7 +12,7 @@ export function reducer(state: MapState, action: MapAction): MapState {
         ...action.payload,
       })
 
-      const modifiedArrayName: PluralMabObjectName = `${mapObject.name}s`
+      const modifiedArrayName: PluralMapObjectName = `${mapObject.name}s`
       const modifiedObjects = [...state.map[modifiedArrayName], mapObject]
 
       // NEW_ASSET: new case if new type in MapInformation
