@@ -40,7 +40,7 @@ function getBaseBmapObjInfo(obj: MapObjectName) {
 
   return {
     Name: info.name,
-    ObjIndexId: info.id,
+    ObjIndexID: info.id,
     ObjIsTile: isTile ? 1 : 0,
     Poly: info.name === 'Polygon Tool' ? 1 : 0,
   }
