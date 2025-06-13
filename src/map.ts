@@ -1,3 +1,5 @@
+import { DistributeOmit } from './types'
+
 export type Coordinates = {
   x: number
   y: number
@@ -12,7 +14,10 @@ export type MapObjectProperties =
   | ({ name: 'ladder' } & BaseObjectProperties)
   | ({ name: 'terrain' } & BaseObjectProperties)
 
-export type MapObjectPropertiesWithoutId = Omit<MapObjectProperties, 'id'>
+export type MapObjectPropertiesWithoutId = DistributeOmit<
+  MapObjectProperties,
+  'id'
+>
 
 export type MapObjectViaName<Name extends MapObjectProperties['name']> =
   Extract<MapObjectProperties, { name: Name }>
