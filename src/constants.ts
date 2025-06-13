@@ -6,4 +6,5 @@ export const emptyMap: MapInformation = {
   spawns: [],
   ladders: [],
   terrains: [],
+  small_ramps: [],
 }

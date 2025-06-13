@@ -112,6 +112,24 @@ export function terrainToBmapTerrain(terrain: Terrain, id: number): BmapObject {
     ...getBaseBmapObjInfo(terrain.name),
   })
 }
+
+export function smallRampToBmapSmallRamp(
+  ramp: SmallRamp,
+  id: number,
+): BmapObject {
+  const bmap = {
+    ...computeBaseBmapCoordinates(ramp),
+    ...getBaseBmapObjInfo(ramp.name),
+    LogicID: `${id}`,
+    ID: `${id}`,
+    Depth: 500,
+    ObjType: 0,
+    ObjSound: 0,
+    Team: -1,
+  }
+  return allJSONValuesToString(bmap)
+}
+
 /**
  * Create a single object representing the entirety of a BMAP.
  *

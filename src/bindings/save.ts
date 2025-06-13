@@ -4,6 +4,7 @@ import {
   blockToBmapBlock,
   bmapObjsToRecordBmapObjs,
   ladderToBmapLadder,
+  smallRampToBmapSmallRamp,
   spawnToBmapSpawn,
   terrainToBmapTerrain,
 } from '../conversion/blocks'
@@ -43,6 +44,7 @@ function createBmapContent(map: MapInformation) {
   const bmapTerrains = map.terrains.map(terrainToBmapTerrain)
   const bmapLadders = map.ladders.map(ladderToBmapLadder)
   const bmapSpawns = map.spawns.map(spawnToBmapSpawn)
+  const bmapSmallRamps = map.small_ramps.map(smallRampToBmapSmallRamp)
   const bmap: Record<string, Record<string, string>> = {
     Config: defaultConfig,
     ...bmapObjsToRecordBmapObjs([
@@ -50,6 +52,7 @@ function createBmapContent(map: MapInformation) {
       ...bmapLadders,
       ...bmapSpawns,
       ...bmapTerrains,
+      ...bmapSmallRamps,
     ]),
   }
 

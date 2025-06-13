@@ -21,6 +21,10 @@ export async function drawMapObject(
 
   // NEW_ASSET: update the switch case to draw the new asset
   switch (mapObject.name) {
+    case 'ramp_bottom_left':
+    case 'ramp_bottom_right':
+    case 'ramp_top_left':
+    case 'ramp_top_right':
     case 'block': {
       const block = new Sprite({
         texture,

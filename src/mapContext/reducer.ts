@@ -12,15 +12,28 @@ export function reducer(state: MapState, action: MapAction): MapState {
         ...action.payload,
       })
 
-      const modifiedArrayName: PluralMapObjectName = `${mapObject.name}s`
-      const modifiedObjects = [...state.map[modifiedArrayName], mapObject]
-
       // NEW_ASSET: new case if new type in MapInformation
 
-      return {
-        ...state,
-        map: { ...state.map, [modifiedArrayName]: modifiedObjects },
-        nextId: state.nextId + 1,
+      if (
+        mapObject.name === 'ramp_bottom_left' ||
+        mapObject.name === 'ramp_bottom_right' ||
+        mapObject.name === 'ramp_top_left' ||
+        mapObject.name === 'ramp_top_right'
+      ) {
+        const modifiedObjects = [...state.map['small_ramps'], mapObject]
+        return {
+          ...state,
+          map: { ...state.map, small_ramps: modifiedObjects },
+          nextId: state.nextId + 1,
+        }
+      } else {
+        const modifiedArrayName: PluralMapObjectName = `${mapObject.name}s`
+        const modifiedObjects = [...state.map[modifiedArrayName], mapObject]
+        return {
+          ...state,
+          map: { ...state.map, [modifiedArrayName]: modifiedObjects },
+          nextId: state.nextId + 1,
+        }
       }
     }
     case 'update_selected_map_object': {
