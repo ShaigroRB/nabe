@@ -1,13 +1,21 @@
-import { Container, Sprite } from 'pixi.js'
+import { Container, Sprite, SpriteOptions } from 'pixi.js'
 
 import { COLOR_BLUE, COLOR_PINK, COLOR_TYPE_NORMAL } from '../colors'
-import { MapObjectProperties, MapObjectViaName } from '../map'
+import { MapObjectProperties } from '../map'
 
 import { CELL_SIZE } from './grid'
 import { loadPixiAsset } from './textures'
-export async function drawMapObject<Name extends MapObjectProperties['name']>(
+import { DrawnObjProperties } from './types'
+
+type AdditionalSpriteOptionsProperties = Omit<
+  SpriteOptions,
+  'width' | 'height' | 'texture'
+>
+
+export async function drawMapObject(
   layer: Container,
-  mapObject: MapObjectViaName<Name>,
+  mapObject: MapObjectProperties | DrawnObjProperties,
+  additionalMapObjectSpriteOptionsProps: AdditionalSpriteOptionsProperties = {},
 ) {
   const texture = await loadPixiAsset(mapObject.name)
 
@@ -21,6 +29,7 @@ export async function drawMapObject<Name extends MapObjectProperties['name']>(
         width: CELL_SIZE,
         height: CELL_SIZE,
         tint: COLOR_TYPE_NORMAL,
+        ...additionalMapObjectSpriteOptionsProps,
       })
 
       layer.addChild(block)
@@ -35,6 +44,7 @@ export async function drawMapObject<Name extends MapObjectProperties['name']>(
         width: CELL_SIZE * 4,
         height: CELL_SIZE * 2,
         tint: COLOR_TYPE_NORMAL,
+        ...additionalMapObjectSpriteOptionsProps,
       })
 
       layer.addChild(terrain)
@@ -49,6 +59,7 @@ export async function drawMapObject<Name extends MapObjectProperties['name']>(
         width: CELL_SIZE,
         height: CELL_SIZE,
         tint: COLOR_BLUE,
+        ...additionalMapObjectSpriteOptionsProps,
       })
 
       layer.addChild(ladder)
@@ -63,6 +74,7 @@ export async function drawMapObject<Name extends MapObjectProperties['name']>(
         width: CELL_SIZE,
         height: CELL_SIZE,
         tint: COLOR_PINK,
+        ...additionalMapObjectSpriteOptionsProps,
       })
 
       layer.addChild(spawn)

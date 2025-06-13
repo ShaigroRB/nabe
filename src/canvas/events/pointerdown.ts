@@ -1,9 +1,7 @@
 import * as PIXI from 'pixi.js'
 
-import { COLOR_BLUE, COLOR_PINK, COLOR_TYPE_NORMAL } from '../../colors'
 import { Coordinates } from '../../map'
-import { CELL_SIZE } from '../grid'
-import { loadPixiAsset } from '../textures'
+import { drawMapObject } from '../draw'
 import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
 
@@ -33,70 +31,8 @@ export function onPointerDown(
     // todo(perf): possible performance improvement for graphics
     // we aren't reusing graphics between each click, just recreating new ones
 
-    const texture = await loadPixiAsset(properties.name)
+    await drawMapObject(layer, properties, { x, y })
 
-    // NEW_ASSET: update the switch case to draw the new asset
-    switch (properties.name) {
-      case 'block': {
-        const block = new PIXI.Sprite({
-          texture,
-          x,
-          y,
-          width: CELL_SIZE,
-          height: CELL_SIZE,
-          tint: COLOR_TYPE_NORMAL,
-        })
-
-        layer.addChild(block)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-      case 'terrain': {
-        const terrain = new PIXI.Sprite({
-          texture,
-          x,
-          y,
-          width: CELL_SIZE * 4,
-          height: CELL_SIZE * 2,
-          tint: COLOR_TYPE_NORMAL,
-        })
-
-        layer.addChild(terrain)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-      case 'ladder': {
-        const ladder = new PIXI.Sprite({
-          texture,
-          x,
-          y,
-          width: CELL_SIZE,
-          height: CELL_SIZE,
-          tint: COLOR_BLUE,
-        })
-
-        layer.addChild(ladder)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-      case 'spawn': {
-        const spawn = new PIXI.Sprite({
-          texture,
-          x,
-          y,
-          width: CELL_SIZE,
-          height: CELL_SIZE,
-          tint: COLOR_PINK,
-        })
-
-        layer.addChild(spawn)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-    }
+    dispatch({ ...properties, x, y })
   }
 }

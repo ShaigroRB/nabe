@@ -1,14 +1,11 @@
 import * as PIXI from 'pixi.js'
 
 import { COLOR_RED } from '../../colors'
-import { CELL_SIZE } from '../grid'
-import { loadPixiAsset } from '../textures'
+import { drawMapObject } from '../draw'
 import { DrawnObjProperties } from '../types'
 import { getNearestLocalPosition } from '../utils'
 
 const ALPHA_PREVIEW_OBJECT = 0.3
-
-// where block would be drawn if user clicks
 
 /**
  * Display a preview of the object to be drawn to the current coordinates
@@ -37,74 +34,13 @@ export function onMouseMove(
     // (graphics, sprite) that interests us
     layer.removeChildren()
 
-    const texture = await loadPixiAsset(properties.name)
+    await drawMapObject(layer, properties, {
+      x,
+      y,
+      alpha: ALPHA_PREVIEW_OBJECT,
+      tint: COLOR_RED,
+    })
 
-    // NEW_ASSET: update the switch case to draw the new asset
-    switch (properties.name) {
-      case 'block': {
-        const block = new PIXI.Sprite({
-          alpha: ALPHA_PREVIEW_OBJECT,
-          texture,
-          x,
-          y,
-          width: CELL_SIZE,
-          height: CELL_SIZE,
-          tint: COLOR_RED,
-        })
-
-        layer.addChild(block)
-        // update map data info
-        dispatch({ ...properties, x, y })
-        break
-      }
-      case 'ladder': {
-        const ladder = new PIXI.Sprite({
-          alpha: ALPHA_PREVIEW_OBJECT,
-          texture,
-          x,
-          y,
-          width: CELL_SIZE,
-          height: CELL_SIZE,
-          tint: COLOR_RED,
-        })
-
-        layer.addChild(ladder)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-      case 'spawn': {
-        const spawn = new PIXI.Sprite({
-          alpha: ALPHA_PREVIEW_OBJECT,
-          texture,
-          x,
-          y,
-          width: CELL_SIZE,
-          height: CELL_SIZE,
-          tint: COLOR_RED,
-        })
-
-        layer.addChild(spawn)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-      case 'terrain': {
-        const terrain = new PIXI.Sprite({
-          alpha: ALPHA_PREVIEW_OBJECT,
-          texture,
-          x,
-          y,
-          width: CELL_SIZE * 4,
-          height: CELL_SIZE * 2,
-          tint: COLOR_RED,
-        })
-
-        layer.addChild(terrain)
-
-        dispatch({ ...properties, x, y })
-        break
-      }
-    }
+    dispatch({ ...properties, x, y })
   }
 }
