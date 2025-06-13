@@ -1,7 +1,15 @@
 import { CELL_SIZE } from '../canvas/grid'
-import { Block, Coordinates, Ladder, Spawn, Terrain } from '../map'
+import {
+  Block,
+  Coordinates,
+  Ladder,
+  MapObjectName,
+  SmallRamp,
+  Spawn,
+  Terrain,
+} from '../map'
 
-import { OBJ_INDEX_IDS } from './ids'
+import { BMAP_OBJ_INFO } from './info'
 
 /**
  * Grid width & height are usually the same in game.
@@ -23,6 +31,21 @@ function computeBaseBmapCoordinates(coords: Coordinates) {
   }
 }
 
+function getBaseBmapObjInfo(obj: MapObjectName) {
+  const info = BMAP_OBJ_INFO[obj]
+  // if id is 0 & not block, then non-animated tile
+  // else, it's animated (strip)
+  const isTile =
+    (info.id === 0 && info.name !== 'Block (1x1)') || info.id === 255
+
+  return {
+    Name: info.name,
+    ObjIndexId: info.id,
+    ObjIsTile: isTile ? 1 : 0,
+    Poly: info.name === 'Polygon Tool' ? 1 : 0,
+  }
+}
+
 function allJSONValuesToString(json: Record<string, unknown>) {
   const result: Record<string, string> = {}
   for (const key in json) {
@@ -39,16 +62,13 @@ function allJSONValuesToString(json: Record<string, unknown>) {
 export function blockToBmapBlock(block: Block, id: number): BmapObject {
   const bmap = {
     ...computeBaseBmapCoordinates(block),
+    ...getBaseBmapObjInfo(block.name),
     LogicID: `${id}`,
     ID: `${id}`,
-    Poly: 0,
-    ObjIsTile: 0,
     Depth: 500,
     ObjType: 0,
     ObjSound: 0,
-    Name: 'Block (1x1)',
     Team: -1,
-    ObjIndexID: OBJ_INDEX_IDS.block,
   }
   return allJSONValuesToString(bmap)
 }
@@ -60,12 +80,9 @@ export function spawnToBmapSpawn(spawn: Spawn, id: number): BmapObject {
     Y: Y + BMAP_MIDDLE_GRID_SIZE,
     LogicID: id,
     ID: id,
-    Poly: '0',
-    ObjIsTile: '0',
     Depth: '-250',
-    Name: 'Player Spawn',
     Team: '0',
-    ObjIndexID: OBJ_INDEX_IDS.spawn,
+    ...getBaseBmapObjInfo(spawn.name),
   }
   return allJSONValuesToString(bmap)
 }
@@ -77,12 +94,9 @@ export function ladderToBmapLadder(ladder: Ladder, id: number): BmapObject {
     Y: Y + BMAP_MIDDLE_GRID_SIZE,
     ID: id,
     LogicID: id,
-    Poly: '0',
-    ObjIsTile: '0',
     Depth: '500',
-    Name: 'Ladder (Metal)',
     Team: '0',
-    ObjIndexID: OBJ_INDEX_IDS.ladder,
+    ...getBaseBmapObjInfo(ladder.name),
   })
 }
 
@@ -91,14 +105,11 @@ export function terrainToBmapTerrain(terrain: Terrain, id: number): BmapObject {
     ...computeBaseBmapCoordinates(terrain),
     ID: id,
     LogicID: id,
-    Poly: '0',
-    ObjIsTile: '0',
     Depth: '500',
     ObjType: '0',
     ObjSound: '0',
-    Name: 'Terrain',
     Team: '-1',
-    ObjIndexID: OBJ_INDEX_IDS.terrain,
+    ...getBaseBmapObjInfo(terrain.name),
   })
 }
 /**

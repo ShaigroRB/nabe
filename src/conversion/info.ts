@@ -1,15 +1,21 @@
 import { MapObjectName } from '../map'
 
-export const OBJ_INDEX_IDS: Record<MapObjectName, number> = {
+type OBJ_INFO = {
+  id: number
+  name: string
+}
+
+// NEW_ASSET: uncomment corresponding line & adapt
+export const BMAP_OBJ_INFO: Record<MapObjectName, OBJ_INFO> = {
   // '1x2_desert_block.png': 0,
-  block: 0,
-  // ramp_bottom_right: 1, // ramp A
-  // ramp_bottom_left: 2, // ramp B
-  // ramp_top_right: 3, // ramp C
-  // ramp_top_left: 4, // ramp D
-  terrain: 5,
+  block: { id: 0, name: 'Block (1x1)' },
+  ramp_bottom_right: { id: 1, name: 'Ramp A' }, // ramp A
+  ramp_bottom_left: { id: 2, name: 'Ramp B' }, // ramp B
+  ramp_top_right: { id: 3, name: 'Ramp C' }, // ramp C
+  ramp_top_left: { id: 4, name: 'Ramp D' }, // ramp D
+  terrain: { id: 5, name: 'Terrain' },
   // 'Polygon Tool': 6,
-  spawn: 7,
+  spawn: { id: 7, name: 'Player Spawn' },
   // 'USC Spawn': 8,
   // 'THE MAN Spawn': 9,
   // 'USC CTF Flag': 10,
@@ -18,7 +24,7 @@ export const OBJ_INDEX_IDS: Record<MapObjectName, number> = {
   // Waypoint: 13,
   // 'Waypoint Block': 14,
   // Patrolpoint: 15,
-  ladder: 16,
+  ladder: { id: 16, name: 'Ladder (Metal)' },
   // 'Window (Vertical)': 17,
   // 'Explosive Barrel': 18,
   // 'Floor Spikes': 19,
