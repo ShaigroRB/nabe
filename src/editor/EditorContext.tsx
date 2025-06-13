@@ -6,15 +6,14 @@ import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 import { importFromJSON } from '../bindings/import'
 import { saveAsBMAP, saveAsJSON } from '../bindings/save'
 import { emptyMap } from '../constants'
+import { MapObjectName } from '../map'
 import { useMapContext } from '../mapContext/MapContext'
 
 import { FileOptions } from './FileOptions'
 import { MapObjectSelector } from './MapObjectSelector'
 
-type ObjectType = 'block' | 'spawn' | 'ladder' | 'terrain'
-
 export type EditorContextInformation = {
-  selectedObjectType: ObjectType
+  selectedObjectType: MapObjectName
 }
 
 const EditorContext = createContext<EditorContextInformation | null>(null)
