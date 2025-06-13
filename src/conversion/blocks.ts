@@ -1,6 +1,8 @@
 import { CELL_SIZE } from '../canvas/grid'
 import { Block, Coordinates, Ladder, Spawn, Terrain } from '../map'
 
+import { OBJ_INDEX_IDS } from './ids'
+
 /**
  * Grid width & height are usually the same in game.
  * I'm using the default one since it's very rarely changed by players.
@@ -46,7 +48,7 @@ export function blockToBmapBlock(block: Block, id: number): BmapObject {
     ObjSound: 0,
     Name: 'Block (1x1)',
     Team: -1,
-    ObjIndexID: 0,
+    ObjIndexID: OBJ_INDEX_IDS.block,
   }
   return allJSONValuesToString(bmap)
 }
@@ -63,7 +65,7 @@ export function spawnToBmapSpawn(spawn: Spawn, id: number): BmapObject {
     Depth: '-250',
     Name: 'Player Spawn',
     Team: '0',
-    ObjIndexID: '7',
+    ObjIndexID: OBJ_INDEX_IDS.spawn,
   }
   return allJSONValuesToString(bmap)
 }
@@ -80,7 +82,7 @@ export function ladderToBmapLadder(ladder: Ladder, id: number): BmapObject {
     Depth: '500',
     Name: 'Ladder (Metal)',
     Team: '0',
-    ObjIndexID: '16',
+    ObjIndexID: OBJ_INDEX_IDS.ladder,
   })
 }
 
@@ -96,7 +98,7 @@ export function terrainToBmapTerrain(terrain: Terrain, id: number): BmapObject {
     ObjSound: '0',
     Name: 'Terrain',
     Team: '-1',
-    ObjIndexID: '5',
+    ObjIndexID: OBJ_INDEX_IDS.terrain,
   })
 }
 /**
