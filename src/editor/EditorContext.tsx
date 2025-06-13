@@ -56,7 +56,7 @@ export const EditorContextProvider = ({
       return
     }
 
-    setNewMap(newMap)
+    setNewMap({ ...emptyMap, ...newMap })
     // to display loading overlay
     setTimeout(() => {
       closeLoading()
