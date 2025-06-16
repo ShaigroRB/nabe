@@ -4,6 +4,7 @@ import {
   blockToBmapBlock,
   bmapObjsToRecordBmapObjs,
   ladderToBmapLadder,
+  longRampToBmapLongRamp,
   rampToBmapRamp,
   spawnToBmapSpawn,
   terrainToBmapTerrain,
@@ -45,6 +46,7 @@ function createBmapContent(map: MapInformation) {
   const ladders = map.ladders.map(ladderToBmapLadder)
   const spawns = map.spawns.map(spawnToBmapSpawn)
   const ramps = map.ramps.map(rampToBmapRamp)
+  const longRamps = map.long_ramps.map(longRampToBmapLongRamp)
   const bmap: Record<string, Record<string, string>> = {
     Config: defaultConfig,
     ...bmapObjsToRecordBmapObjs([
@@ -53,6 +55,7 @@ function createBmapContent(map: MapInformation) {
       ...spawns,
       ...terrains,
       ...ramps,
+      ...longRamps,
     ]),
   }
 

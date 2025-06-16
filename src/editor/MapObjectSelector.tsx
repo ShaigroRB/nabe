@@ -15,6 +15,10 @@ import { MapObjectName } from '../map'
 import {
   TextureBlock,
   TextureLadder,
+  TextureLongRampBottomLeft,
+  TextureLongRampBottomRight,
+  TextureLongRampTopLeft,
+  TextureLongRampTopRight,
   TextureRampBottomLeft,
   TextureRampBottomRight,
   TextureRampTopLeft,
@@ -54,6 +58,10 @@ const mapObjects: [MapObjectName, TextureImgSrc, Tint][] = [
   ['ramp_bottom_right', TextureRampBottomRight, 'normal'],
   ['ramp_top_left', TextureRampTopLeft, 'normal'],
   ['ramp_top_right', TextureRampTopRight, 'normal'],
+  ['long_ramp_bottom_left', TextureLongRampBottomLeft, 'normal'],
+  ['long_ramp_bottom_right', TextureLongRampBottomRight, 'normal'],
+  ['long_ramp_top_left', TextureLongRampTopLeft, 'normal'],
+  ['long_ramp_top_right', TextureLongRampTopRight, 'normal'],
 ]
 
 type Props = Pick<DrawerProps, 'opened' | 'onClose'> & {

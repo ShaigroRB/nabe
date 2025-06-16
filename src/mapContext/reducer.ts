@@ -24,6 +24,13 @@ export function reducer(state: MapState, action: MapAction): MapState {
           modifiedArrayName = 'ramps'
           break
         }
+        case 'long_ramp_bottom_left':
+        case 'long_ramp_bottom_right':
+        case 'long_ramp_top_left':
+        case 'long_ramp_top_right': {
+          modifiedArrayName = 'long_ramps'
+          break
+        }
         case 'spawn_player': {
           modifiedArrayName = 'spawns'
           break

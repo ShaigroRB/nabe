@@ -7,4 +7,5 @@ export const emptyMap: MapInformation = {
   ladders: [],
   terrains: [],
   ramps: [],
+  long_ramps: [],
 }

@@ -17,6 +17,10 @@ export type MapObjectProperties =
   | ({ name: 'ramp_bottom_right' } & BaseObjectProperties)
   | ({ name: 'ramp_top_left' } & BaseObjectProperties)
   | ({ name: 'ramp_top_right' } & BaseObjectProperties)
+  | ({ name: 'long_ramp_bottom_left' } & BaseObjectProperties)
+  | ({ name: 'long_ramp_bottom_right' } & BaseObjectProperties)
+  | ({ name: 'long_ramp_top_left' } & BaseObjectProperties)
+  | ({ name: 'long_ramp_top_right' } & BaseObjectProperties)
 
 export type MapObjectPropertiesWithoutId = DistributeOmit<
   MapObjectProperties,
@@ -36,6 +40,12 @@ export type Terrain = MapObjectViaName<'terrain'>
 export type Ramp = MapObjectViaName<
   'ramp_bottom_left' | 'ramp_bottom_right' | 'ramp_top_left' | 'ramp_top_right'
 >
+export type LongRamp = MapObjectViaName<
+  | 'long_ramp_bottom_left'
+  | 'long_ramp_bottom_right'
+  | 'long_ramp_top_left'
+  | 'long_ramp_top_right'
+>
 
 // NEW_ASSET: add a new type if needed in MapInformation type
 export type MapInformation = {
@@ -44,6 +54,7 @@ export type MapInformation = {
   ladders: Ladder[]
   terrains: Terrain[]
   ramps: Ramp[]
+  long_ramps: LongRamp[]
 }
 
 export type MapInformationKeys = keyof MapInformation

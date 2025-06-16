@@ -3,6 +3,7 @@ import {
   Block,
   Coordinates,
   Ladder,
+  LongRamp,
   MapObjectName,
   Ramp,
   Spawn,
@@ -125,6 +126,19 @@ export function rampToBmapRamp(ramp: Ramp, id: number): BmapObject {
     Team: -1,
   }
   return allJSONValuesToString(bmap)
+}
+
+export function longRampToBmapLongRamp(ramp: LongRamp, id: number): BmapObject {
+  return allJSONValuesToString({
+    ...computeBaseBmapCoordinates(ramp),
+    ...getBaseBmapObjInfo(ramp.name),
+    LogicID: `${id}`,
+    ID: `${id}`,
+    Depth: 500,
+    ObjType: 0,
+    ObjSound: 0,
+    Team: -1,
+  })
 }
 
 /**

@@ -40,6 +40,23 @@ export async function drawMapObject(
 
       break
     }
+    case 'long_ramp_bottom_left':
+    case 'long_ramp_bottom_right':
+    case 'long_ramp_top_left':
+    case 'long_ramp_top_right': {
+      const ramp = new Sprite({
+        texture,
+        x: mapObject.x,
+        y: mapObject.y,
+        width: CELL_SIZE * 2,
+        height: CELL_SIZE,
+        tint: COLOR_TYPE_NORMAL,
+        ...additionalMapObjectSpriteOptionsProps,
+      })
+
+      layer.addChild(ramp)
+      break
+    }
     case 'terrain': {
       const terrain = new Sprite({
         texture,
