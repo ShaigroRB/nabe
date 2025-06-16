@@ -4,7 +4,7 @@ import {
   Coordinates,
   Ladder,
   MapObjectName,
-  SmallRamp,
+  Ramp,
   Spawn,
   Terrain,
 } from '../map'
@@ -113,10 +113,7 @@ export function terrainToBmapTerrain(terrain: Terrain, id: number): BmapObject {
   })
 }
 
-export function smallRampToBmapSmallRamp(
-  ramp: SmallRamp,
-  id: number,
-): BmapObject {
+export function rampToBmapRamp(ramp: Ramp, id: number): BmapObject {
   const bmap = {
     ...computeBaseBmapCoordinates(ramp),
     ...getBaseBmapObjInfo(ramp.name),

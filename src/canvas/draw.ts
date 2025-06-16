@@ -70,7 +70,7 @@ export async function drawMapObject(
 
       break
     }
-    case 'spawn': {
+    case 'spawn_player': {
       const spawn = new Sprite({
         texture,
         x: mapObject.x,

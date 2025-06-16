@@ -1,4 +1,4 @@
-import { inferMapObject, PluralMapObjectName } from '../map'
+import { inferMapObject, MapInformationKeys } from '../map'
 
 import { MapAction } from './actions'
 import { MapState } from './state'
@@ -12,28 +12,33 @@ export function reducer(state: MapState, action: MapAction): MapState {
         ...action.payload,
       })
 
-      // NEW_ASSET: new case if new type in MapInformation
+      // default value should be overriden afterwards anyway
+      let modifiedArrayName: MapInformationKeys = 'blocks'
 
-      if (
-        mapObject.name === 'ramp_bottom_left' ||
-        mapObject.name === 'ramp_bottom_right' ||
-        mapObject.name === 'ramp_top_left' ||
-        mapObject.name === 'ramp_top_right'
-      ) {
-        const modifiedObjects = [...state.map['small_ramps'], mapObject]
-        return {
-          ...state,
-          map: { ...state.map, small_ramps: modifiedObjects },
-          nextId: state.nextId + 1,
+      // NEW_ASSET: new case if new type in MapInformation
+      switch (mapObject.name) {
+        case 'ramp_bottom_left':
+        case 'ramp_bottom_right':
+        case 'ramp_top_left':
+        case 'ramp_top_right': {
+          modifiedArrayName = 'ramps'
+          break
         }
-      } else {
-        const modifiedArrayName: PluralMapObjectName = `${mapObject.name}s`
-        const modifiedObjects = [...state.map[modifiedArrayName], mapObject]
-        return {
-          ...state,
-          map: { ...state.map, [modifiedArrayName]: modifiedObjects },
-          nextId: state.nextId + 1,
+        case 'spawn_player': {
+          modifiedArrayName = 'spawns'
+          break
         }
+        default: {
+          modifiedArrayName = `${mapObject.name}s`
+          break
+        }
+      }
+
+      const modifiedObjects = [...state.map[modifiedArrayName], mapObject]
+      return {
+        ...state,
+        map: { ...state.map, [modifiedArrayName]: modifiedObjects },
+        nextId: state.nextId + 1,
       }
     }
     case 'update_selected_map_object': {

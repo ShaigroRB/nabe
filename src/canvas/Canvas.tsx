@@ -120,7 +120,7 @@ function resetEventsListeners({ map }: { map: MapContextInformation }) {
       (props) => {
         switch (props.name) {
           case 'block':
-          case 'spawn':
+          case 'spawn_player':
           case 'ladder': {
             // console.log({ props })
             break

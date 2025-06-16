@@ -9,7 +9,7 @@ import TextureRampBottomLeft from './assets/textures/ramp_bottom_left.png'
 import TextureRampBottomRight from './assets/textures/ramp_bottom_right.png'
 import TextureRampTopLeft from './assets/textures/ramp_top_left.png'
 import TextureRampTopRight from './assets/textures/ramp_top_right.png'
-import TextureSpawn from './assets/textures/spawn.png'
+import TextureSpawnPlayer from './assets/textures/spawn_player.png'
 import TextureTerrain from './assets/textures/terrain.png'
 
 export {
@@ -24,7 +24,7 @@ export {
   TextureRampBottomRight,
   TextureRampTopLeft,
   TextureRampTopRight,
-  TextureSpawn,
+  TextureSpawnPlayer,
   TextureTerrain,
 }
 

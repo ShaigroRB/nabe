@@ -15,7 +15,7 @@ export const BMAP_OBJ_INFO: Record<MapObjectName, OBJ_INFO> = {
   ramp_top_left: { id: 4, name: 'Ramp D' }, // ramp D
   terrain: { id: 5, name: 'Terrain' },
   // 'Polygon Tool': 6,
-  spawn: { id: 7, name: 'Player Spawn' },
+  spawn_player: { id: 7, name: 'Player Spawn' },
   // 'USC Spawn': 8,
   // 'THE MAN Spawn': 9,
   // 'USC CTF Flag': 10,

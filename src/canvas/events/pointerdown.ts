@@ -14,7 +14,7 @@ import { getNearestLocalPosition } from '../utils'
  * - type of object to be drawn with additional properties for that object
  *
  * @example onPointerDown(dispatch, { obj: 'block', type: 'lava', ambience: 'rainy' })
- * @example onPointerDown(dispatch, { obj: 'spawn', type: 'player' })
+ * @example onPointerDown(dispatch, { obj: 'spawn_player', type: 'player' })
  * @example onPointerDown(dispatch, { obj: 'key', color: 0x00ff00 })
  *
  * It returns an async function that waits for a `PIXI.FederatedPointerEvent`.

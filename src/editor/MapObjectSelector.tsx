@@ -19,7 +19,7 @@ import {
   TextureRampBottomRight,
   TextureRampTopLeft,
   TextureRampTopRight,
-  TextureSpawn,
+  TextureSpawnPlayer,
   TextureTerrain,
 } from '../react_textures'
 
@@ -47,7 +47,7 @@ type Tint = (typeof tints)[number]
 // NEW_ASSET: add new map object corresponding to new asset
 const mapObjects: [MapObjectName, TextureImgSrc, Tint][] = [
   ['block', TextureBlock, 'normal'],
-  ['spawn', TextureSpawn, 'pink'],
+  ['spawn_player', TextureSpawnPlayer, 'pink'],
   ['ladder', TextureLadder, 'blue'],
   ['terrain', TextureTerrain, 'normal'],
   ['ramp_bottom_left', TextureRampBottomLeft, 'normal'],

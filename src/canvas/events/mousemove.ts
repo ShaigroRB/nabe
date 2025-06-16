@@ -16,7 +16,7 @@ const ALPHA_PREVIEW_OBJECT = 0.3
  * - type of object to be drawn with additional properties for that object
  *
  * @example onMouseMove(dispatch, { obj: 'block', type: 'lava', ambience: 'rainy' })
- * @example onMouseMove(dispatch, { obj: 'spawn', type: 'player' })
+ * @example onMouseMove(dispatch, { obj: 'spawn_player', type: 'player' })
  * @example onMouseMove(dispatch, { obj: 'key', color: 0x00ff00 })
  *
  * It returns an async function that waits for a `PIXI.FederatedPointerEvent`.

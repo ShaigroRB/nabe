@@ -13,7 +13,7 @@ import {
   TextureRampBottomRight,
   TextureRampTopLeft,
   TextureRampTopRight,
-  TextureSpawn,
+  TextureSpawnPlayer,
   TextureTerrain,
 } from '../react_textures'
 
@@ -31,7 +31,7 @@ const assets: { alias: MapObjectName; src: string }[] = [
   { alias: 'ramp_bottom_right', src: TextureRampBottomRight },
   { alias: 'ramp_top_left', src: TextureRampTopLeft },
   { alias: 'ramp_top_right', src: TextureRampTopRight },
-  { alias: 'spawn', src: TextureSpawn },
+  { alias: 'spawn_player', src: TextureSpawnPlayer },
   { alias: 'terrain', src: TextureTerrain },
 ]
 

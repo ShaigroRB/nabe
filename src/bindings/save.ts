@@ -4,7 +4,7 @@ import {
   blockToBmapBlock,
   bmapObjsToRecordBmapObjs,
   ladderToBmapLadder,
-  smallRampToBmapSmallRamp,
+  rampToBmapRamp,
   spawnToBmapSpawn,
   terrainToBmapTerrain,
 } from '../conversion/blocks'
@@ -40,19 +40,19 @@ export function saveAsJSON(map: MapInformation) {
 
 // NEW_ASSET: adapt conversion to bmap.txt
 function createBmapContent(map: MapInformation) {
-  const bmapBlocks = map.blocks.map(blockToBmapBlock)
-  const bmapTerrains = map.terrains.map(terrainToBmapTerrain)
-  const bmapLadders = map.ladders.map(ladderToBmapLadder)
-  const bmapSpawns = map.spawns.map(spawnToBmapSpawn)
-  const bmapSmallRamps = map.small_ramps.map(smallRampToBmapSmallRamp)
+  const blocks = map.blocks.map(blockToBmapBlock)
+  const terrains = map.terrains.map(terrainToBmapTerrain)
+  const ladders = map.ladders.map(ladderToBmapLadder)
+  const spawns = map.spawns.map(spawnToBmapSpawn)
+  const ramps = map.ramps.map(rampToBmapRamp)
   const bmap: Record<string, Record<string, string>> = {
     Config: defaultConfig,
     ...bmapObjsToRecordBmapObjs([
-      ...bmapBlocks,
-      ...bmapLadders,
-      ...bmapSpawns,
-      ...bmapTerrains,
-      ...bmapSmallRamps,
+      ...blocks,
+      ...ladders,
+      ...spawns,
+      ...terrains,
+      ...ramps,
     ]),
   }
 
