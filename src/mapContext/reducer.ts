@@ -2,6 +2,7 @@ import { inferMapObject, MapInformationKeys } from '../map'
 
 import { MapAction } from './actions'
 import { MapState } from './state'
+import { getMapObjectIdByCoords, mapInformationToObjsByCoords } from './utils'
 
 export function reducer(state: MapState, action: MapAction): MapState {
   switch (action.type) {
@@ -11,6 +12,9 @@ export function reducer(state: MapState, action: MapAction): MapState {
         name: state.selected.name,
         ...action.payload,
       })
+
+      // update the record placed map objects
+      const objByCoordsId = getMapObjectIdByCoords(mapObject)
 
       // default value should be overriden afterwards anyway
       let modifiedArrayName: MapInformationKeys = 'blocks'
@@ -46,6 +50,7 @@ export function reducer(state: MapState, action: MapAction): MapState {
         ...state,
         map: { ...state.map, [modifiedArrayName]: modifiedObjects },
         nextId: state.nextId + 1,
+        mapObjsByCoords: { ...state.mapObjsByCoords, [objByCoordsId]: true },
       }
     }
     case 'update_selected_map_object': {
@@ -53,9 +58,12 @@ export function reducer(state: MapState, action: MapAction): MapState {
     }
     case 'set_new_map': {
       // todo: retrieve the next id from map
+      const newMapObjsByCoords = mapInformationToObjsByCoords(action.payload)
+
       return {
         ...state,
         map: { ...action.payload },
+        mapObjsByCoords: newMapObjsByCoords,
       }
     }
     default:

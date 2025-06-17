@@ -23,7 +23,7 @@ const ALPHA_PREVIEW_OBJECT = 0.3
  */
 export function onMouseMove(
   layer: PIXI.Container,
-  dispatch: (properties: DrawnObjProperties) => void,
+  dispatch: (properties: DrawnObjProperties) => Promise<void>,
   properties: DrawnObjProperties,
 ) {
   return async (e: PIXI.FederatedPointerEvent) => {
@@ -41,6 +41,6 @@ export function onMouseMove(
       tint: COLOR_RED,
     })
 
-    dispatch({ ...properties, x, y })
+    await dispatch({ ...properties, x, y })
   }
 }

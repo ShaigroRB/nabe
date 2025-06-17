@@ -8,11 +8,16 @@ import {
 } from 'react'
 
 import { debug } from '../debug'
-import { Coordinates, MapInformation } from '../map'
+import {
+  Coordinates,
+  MapInformation,
+  MapObjectPropertiesWithoutId,
+} from '../map'
 
 import { MapAction } from './actions'
 import { reducer } from './reducer'
 import { defaultMapState, MapState } from './state'
+import { getMapObjectIdByCoords } from './utils'
 
 export type MapContextInformation = {
   state: MapState
@@ -27,6 +32,7 @@ export type MapContextInformation = {
   setNewMap: (map: MapInformation) => void
   shouldRedraw: boolean
   redrawIsFinished: () => void
+  canBePlaced: (obj: MapObjectPropertiesWithoutId) => boolean
 }
 
 const MapContext = createContext<MapContextInformation | null>(null)
@@ -40,6 +46,12 @@ export const MapContextProvider = ({ children }: { children: ReactNode }) => {
 
   const redrawIsFinished = () => {
     setShouldRedraw(false)
+  }
+
+  const canBePlaced = (obj: MapObjectPropertiesWithoutId) => {
+    const id = getMapObjectIdByCoords(obj)
+    // if no entries exist yet, object can be placed
+    return state.mapObjsByCoords[id] !== true
   }
 
   const placeSelectedMapObject = ({ x, y }: Coordinates) => {
@@ -66,6 +78,7 @@ export const MapContextProvider = ({ children }: { children: ReactNode }) => {
         setNewMap,
         shouldRedraw,
         redrawIsFinished,
+        canBePlaced,
       }}
     >
       {children}

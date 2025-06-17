@@ -104,11 +104,24 @@ const useInitializePixiMainContainer = () => {
     }
 
     resetEventsListeners({ map: mapContext })
+
+    return () => {
+      eventsLayer.removeAllListeners()
+    }
+
+    /**
+     * Beurk. The effect reactivates each time `nextId` updates, which is each time a new object
+     * is placed.
+     * Note that `nextId` was added in the deps to be able to check whether an object can be placed
+     * or not via `mapObjsByCoords`.
+     */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pixiApp, mapContext.state.selected.name])
+  }, [pixiApp, mapContext.state.selected.name, mapContext.state.nextId])
 
   return editorContainer
 }
+
+let isMapObjectBeingPlaced = false
 
 function resetEventsListeners({ map }: { map: MapContextInformation }) {
   eventsLayer.removeAllListeners()
@@ -117,8 +130,12 @@ function resetEventsListeners({ map }: { map: MapContextInformation }) {
     'mousemove',
     onMouseMove(
       previewLayer,
-      (props) => {
-        switch (props.name) {
+      async (obj) => {
+        if (isMapObjectBeingPlaced && map.canBePlaced(obj)) {
+          await drawMapObject(drawingContainer, obj)
+          map.placeSelectedMapObject(obj)
+        }
+        switch (obj.name) {
           case 'block':
           case 'spawn_player':
           case 'ladder': {
@@ -135,10 +152,16 @@ function resetEventsListeners({ map }: { map: MapContextInformation }) {
     'pointerdown',
     onPointerDown(
       drawingContainer,
-      (coords) => {
-        map.placeSelectedMapObject(coords)
+      (obj) => {
+        isMapObjectBeingPlaced = true
+        map.placeSelectedMapObject(obj)
       },
+      map.canBePlaced,
       { x: 0, y: 0, ...map.state.selected },
     ),
   )
+
+  eventsLayer.on('pointerup', () => {
+    isMapObjectBeingPlaced = false
+  })
 }
