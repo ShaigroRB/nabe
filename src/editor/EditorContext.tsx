@@ -6,6 +6,7 @@ import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 import { importFromJSON } from '../bindings/import'
 import { saveAsBMAP, saveAsJSON } from '../bindings/save'
 import { emptyMap } from '../constants'
+import { toggleDebug } from '../debug'
 import { MapObjectName } from '../map'
 import { useMapContext } from '../mapContext/MapContext'
 
@@ -48,6 +49,7 @@ export const EditorContextProvider = ({
         setNewMap(emptyMap)
       },
     ],
+    ['D', toggleDebug],
   ])
 
   const udpateNewMap = async () => {

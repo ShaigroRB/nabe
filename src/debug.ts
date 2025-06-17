@@ -3,3 +3,7 @@ const debugDiv = document.getElementById('debug') as HTMLDivElement
 export function debug(a: any) {
   debugDiv.textContent = JSON.stringify(a)
 }
+
+export function toggleDebug() {
+  debugDiv.className = debugDiv.className === '' ? 'invisible' : ''
+}
