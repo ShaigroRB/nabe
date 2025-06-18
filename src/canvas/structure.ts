@@ -1,9 +1,13 @@
 import * as PIXI from 'pixi.js'
 
+import { COLOR_BLACK } from '../colors'
+
 import { generateGrid } from './grid'
 import {
   ZINDEX_CONTAINER_DETECT_EVENTS,
   ZINDEX_DRAWING_CONTAINER,
+  ZINDEX_LOGIC_DRAWING_CONTAINER,
+  ZINDEX_LOGIC_OVERLAY,
   ZINDEX_PREVIEW_PLACED_OBJECT,
 } from './zIndexes'
 
@@ -12,6 +16,13 @@ let structure = {
   gridLayer: new PIXI.Container(),
   userContainer: new PIXI.Container(),
   drawingContainer: new PIXI.Container(),
+  /**
+   * Contains the overlay graphics and the drawing container
+   * specifically made for logic objects.
+   */
+  logicContainer: new PIXI.Container(),
+  logicOverlay: new PIXI.Graphics(),
+  logicDrawingContainer: new PIXI.Container(),
   previewLayer: new PIXI.Container(),
   eventsLayer: new PIXI.Graphics(),
 }
@@ -60,11 +71,41 @@ export function createPixiAppStructure() {
     zIndex: ZINDEX_PREVIEW_PLACED_OBJECT,
   })
 
-  /** The drawing container contains all the different layers where the objects are drawn. */
+  /**
+   * The drawing container contains all the different layers where the objects are drawn.
+   * Logic elements are not drawn on this container.
+   */
   const drawingContainer = new PIXI.Container({
     width,
     height,
     zIndex: ZINDEX_DRAWING_CONTAINER,
+  })
+
+  /**
+   * The logic drawing container contains the logic overlay and the logic drawing container.
+   */
+  const logicContainer = new PIXI.Container({
+    width,
+    height,
+    zIndex: ZINDEX_LOGIC_DRAWING_CONTAINER,
+  })
+  /** The logic overlay is black and slightly visible. */
+  const logicOverlay = new PIXI.Graphics({
+    width,
+    height,
+    alpha: 0.3,
+    zIndex: ZINDEX_LOGIC_OVERLAY,
+    eventMode: 'none',
+  })
+  logicOverlay.rect(0, 0, width, height).fill(COLOR_BLACK)
+
+  /** The logic drawing container contains logic elements such as logic gates, lines and systems.
+   * Objects such as spawns, keys or doors must be redrawn on this container.
+   */
+  const logicDrawingContainer = new PIXI.Container({
+    width,
+    height,
+    zIndex: ZINDEX_LOGIC_DRAWING_CONTAINER,
   })
 
   /**
@@ -85,18 +126,30 @@ export function createPixiAppStructure() {
     previewLayer,
     drawingContainer,
     eventsLayer,
+    logicContainer,
+    logicOverlay,
+    logicDrawingContainer,
   }
 
   rootContainer.addChild(gridLayer)
   rootContainer.addChild(userContainer)
 
   userContainer.addChild(previewLayer)
+  userContainer.addChild(logicContainer)
   userContainer.addChild(drawingContainer)
   userContainer.addChild(eventsLayer)
+
+  logicContainer.addChild(logicDrawingContainer)
+  logicContainer.addChild(logicOverlay)
 
   return structure
 }
 
 export function clearDrawingContainer() {
   structure.drawingContainer.removeChildren()
+}
+
+export function toggleLogicDrawingContainer() {
+  const { visible } = structure.logicContainer
+  structure.logicContainer.visible = !visible
 }

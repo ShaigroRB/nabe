@@ -49,6 +49,7 @@ function CollapseDesktop() {
         <Binding binding="G" desc="Objects" />
         <Binding binding="C" desc="Clear map" />
         <Binding binding="D" desc="Toggle debug" />
+        <Binding binding="F2" desc="Toggle logic mode" />
       </Group>
     </ErrorBoundary>
   )

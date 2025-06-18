@@ -5,6 +5,7 @@ import { getHotkeyHandler, useDisclosure, useHotkeys } from '@mantine/hooks'
 
 import { importFromJSON } from '../bindings/import'
 import { saveAsBMAP, saveAsJSON } from '../bindings/save'
+import { toggleLogicDrawingContainer } from '../canvas/structure'
 import { emptyMap } from '../constants'
 import { toggleDebug } from '../debug'
 import { MapObjectName } from '../map'
@@ -50,6 +51,7 @@ export const EditorContextProvider = ({
       },
     ],
     ['D', toggleDebug],
+    ['F2', toggleLogicDrawingContainer],
   ])
 
   const udpateNewMap = async () => {
