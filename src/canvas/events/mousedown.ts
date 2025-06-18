@@ -20,7 +20,7 @@ import { getNearestLocalPosition } from '../utils'
  * @example onPointerDown(neutralLayer, dispatch, canObjBeDrawn, { obj: 'spawn_player', type: 'player' })
  * @example onPointerDown(randLayer, dispatch, canBeDrawn, { obj: 'key', color: 0x00ff00 })
  */
-export function onPointerDown(
+export function onMouseDown(
   layer: PIXI.Container,
   dispatch: (coordinates: DrawnObjProperties) => void,
   canBeDrawn: (obj: DrawnObjProperties) => boolean,

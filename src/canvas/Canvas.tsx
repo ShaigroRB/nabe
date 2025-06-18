@@ -4,8 +4,8 @@ import * as PIXI from 'pixi.js'
 import { MapInformation } from '../map'
 import { MapContextInformation, useMapContext } from '../mapContext/MapContext'
 
+import { onMouseDown } from './events/mousedown'
 import { onMouseMove } from './events/mousemove'
-import { onPointerDown } from './events/pointerdown'
 import { drawMapObject } from './draw'
 import {
   clearDrawingContainer,
@@ -149,8 +149,8 @@ function resetEventsListeners({ map }: { map: MapContextInformation }) {
   )
 
   eventsLayer.on(
-    'pointerdown',
-    onPointerDown(
+    'mousedown',
+    onMouseDown(
       drawingContainer,
       (obj) => {
         isMapObjectBeingPlaced = true
@@ -161,7 +161,7 @@ function resetEventsListeners({ map }: { map: MapContextInformation }) {
     ),
   )
 
-  eventsLayer.on('pointerup', () => {
+  eventsLayer.on('mouseup', () => {
     isMapObjectBeingPlaced = false
   })
 }
