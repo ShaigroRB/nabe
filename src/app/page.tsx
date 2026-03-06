@@ -1,29 +1,21 @@
+'use client'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { Group, MantineProvider } from '@mantine/core'
-import { Notifications } from '@mantine/notifications'
-
-import { EditorCanvas } from './canvas/Canvas'
-import { Binding } from './components/Binding'
-import { EditorContextProvider } from './editor/EditorContext'
-import { MapContextProvider } from './mapContext/MapContext'
+import { EditorCanvas } from '@/canvas/Canvas'
+import { Binding } from '@/components/Binding'
+import { EditorContextProvider } from '@/editor/EditorContext'
+import { MapContextProvider } from '@/mapContext/MapContext'
+import { Group } from '@mantine/core'
 
 // core styles are required for all packages
-import '@mantine/core/styles.css'
-import '@mantine/notifications/styles.css'
 
 function App() {
   return (
-    <ErrorBoundary fallback={<div>App or Mantine crashed</div>}>
-      <MantineProvider>
-        <MapContextProvider>
-          <EditorContextProvider>
-            <CollapseDesktop />
-          </EditorContextProvider>
-        </MapContextProvider>
-        <Notifications />
-      </MantineProvider>
-    </ErrorBoundary>
+    <MapContextProvider>
+      <EditorContextProvider>
+        <CollapseDesktop />
+      </EditorContextProvider>
+    </MapContextProvider>
   )
 }
 

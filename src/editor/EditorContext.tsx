@@ -1,3 +1,4 @@
+'use client'
 import { createContext, ReactNode } from 'react'
 
 import { Box, LoadingOverlay } from '@mantine/core'

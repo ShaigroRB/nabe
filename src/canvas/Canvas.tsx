@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useReducer, useState } from 'react'
 import * as PIXI from 'pixi.js'
 

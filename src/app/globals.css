@@ -10,3 +10,7 @@ html {
 .mantine-Kbd-root {
   border-color: var(--mantine-color-gray-5);
 }
+
+.invisible {
+  display: none;
+}

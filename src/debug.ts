@@ -1,9 +1,17 @@
-const debugDiv = document.getElementById('debug') as HTMLDivElement
+function getDebugDiv() {
+  return document.getElementById('debug') as HTMLDivElement
+}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debug(a: any) {
-  debugDiv.textContent = JSON.stringify(a)
+  const debugDiv = getDebugDiv()
+  if (debugDiv != null) {
+    getDebugDiv().textContent = JSON.stringify(a)
+  }
 }
 
 export function toggleDebug() {
-  debugDiv.className = debugDiv.className === '' ? 'invisible' : ''
+  const debugDiv = getDebugDiv()
+  if (debugDiv != null) {
+    debugDiv.className = debugDiv.className === '' ? 'invisible' : ''
+  }
 }

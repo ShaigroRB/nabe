@@ -25,3 +25,7 @@ dist-ssr
 
 # bmap examples
 src/examples/*.json
+next-env.d.ts
+# Next.js
+.next/
+out/
