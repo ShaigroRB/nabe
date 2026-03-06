@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import Image, { StaticImageData } from 'next/image'
 
 import {
   Button,
   Drawer,
   DrawerProps,
   Group,
-  Image,
   Input,
   Stack,
   Text,
@@ -45,23 +45,25 @@ const tints = [
   'bouncy',
   'ammo',
 ] as const
-type TextureImgSrc = string
+type TextureImgSrc = StaticImageData
 type Tint = (typeof tints)[number]
+type Width = 32 | 64 // translate to 128px or 256px
+type Height = 32 | 64 // translate to 128px or 256px
 
 // NEW_ASSET: add new map object corresponding to new asset
-const mapObjects: [MapObjectName, TextureImgSrc, Tint][] = [
-  ['block', TextureBlock, 'normal'],
-  ['spawn_player', TextureSpawnPlayer, 'pink'],
-  ['ladder', TextureLadder, 'blue'],
-  ['terrain', TextureTerrain, 'normal'],
-  ['ramp_bottom_left', TextureRampBottomLeft, 'normal'],
-  ['ramp_bottom_right', TextureRampBottomRight, 'normal'],
-  ['ramp_top_left', TextureRampTopLeft, 'normal'],
-  ['ramp_top_right', TextureRampTopRight, 'normal'],
-  ['long_ramp_bottom_left', TextureLongRampBottomLeft, 'normal'],
-  ['long_ramp_bottom_right', TextureLongRampBottomRight, 'normal'],
-  ['long_ramp_top_left', TextureLongRampTopLeft, 'normal'],
-  ['long_ramp_top_right', TextureLongRampTopRight, 'normal'],
+const mapObjects: [MapObjectName, TextureImgSrc, Tint, Width, Height][] = [
+  ['block', TextureBlock, 'normal', 32, 32],
+  ['spawn_player', TextureSpawnPlayer, 'pink', 32, 32],
+  ['ladder', TextureLadder, 'blue', 32, 32],
+  ['terrain', TextureTerrain, 'normal', 64, 32],
+  ['ramp_bottom_left', TextureRampBottomLeft, 'normal', 32, 32],
+  ['ramp_bottom_right', TextureRampBottomRight, 'normal', 32, 32],
+  ['ramp_top_left', TextureRampTopLeft, 'normal', 32, 32],
+  ['ramp_top_right', TextureRampTopRight, 'normal', 32, 32],
+  ['long_ramp_bottom_left', TextureLongRampBottomLeft, 'normal', 64, 32],
+  ['long_ramp_bottom_right', TextureLongRampBottomRight, 'normal', 64, 32],
+  ['long_ramp_top_left', TextureLongRampTopLeft, 'normal', 64, 32],
+  ['long_ramp_top_right', TextureLongRampTopRight, 'normal', 64, 32],
 ]
 
 type Props = Pick<DrawerProps, 'opened' | 'onClose'> & {
@@ -86,7 +88,7 @@ export const MapObjectSelector = ({ opened, onClose, selectObj }: Props) => {
         />
         {mapObjects
           .filter(([name]) => name.includes(search))
-          .map(([name, src, tint]) => {
+          .map(([name, src, tint, w, h]) => {
             return (
               <Button
                 variant="subtle"
@@ -99,7 +101,13 @@ export const MapObjectSelector = ({ opened, onClose, selectObj }: Props) => {
                 w="100%"
               >
                 <Group>
-                  <Image className={tint} src={src} w={64} h={32} />
+                  <Image
+                    className={tint}
+                    src={src}
+                    width={w}
+                    height={h}
+                    alt={name}
+                  />
                   <Text>{name}</Text>
                 </Group>
               </Button>

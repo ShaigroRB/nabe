@@ -1,3 +1,4 @@
+import { StaticImageData } from 'next/image'
 import { Assets } from 'pixi.js'
 
 import { MapObjectName } from '../map'
@@ -19,7 +20,7 @@ import {
 
 // NEW_ASSET: add alias & src to assets array
 
-const assets: { alias: MapObjectName; src: string }[] = [
+const assets: { alias: MapObjectName; src: StaticImageData }[] = [
   { alias: 'block', src: TextureBlock },
   { alias: 'ladder', src: TextureLadder },
   { alias: 'long_ramp_bottom_left', src: TextureLongRampBottomLeft },
